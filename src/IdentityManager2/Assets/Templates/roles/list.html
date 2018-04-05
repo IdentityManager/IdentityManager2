@@ -1,0 +1,59 @@
+﻿
+<div class="page-header">
+    <h1>
+        Roles
+        <span ng-show="model.waiting" class="waiting label label-info">Searching...</span>
+        <span ng-show="model.pager" class="badge">{{model.pager.total}} found</span>
+    </h1>
+</div>
+
+<form ng-submit="search(model.filter)" class="form-group">
+    <div class="col-sm-6">
+        <div class="input-group form-group">
+            <input type="text" id="filter" ng-model="model.filter" class="form-control" placeholder="Filter" autofocus>
+            <span class="input-group-btn">
+                <button class="btn btn-primary">Search</button>
+            </span>
+        </div>
+    </div>
+</form>
+
+<div class="row" ng-show="model.message">
+    <div class="col-sm-8">
+        <div class="alert alert-danger alert-dismissable">{{model.message}}</div>
+    </div>
+</div>
+
+<div class="row" ng-hide="model.waiting || model.message || (model.roles.length > 0)">
+    <div class="col-sm-8">
+        <div class="alert alert-info">No Roles Found</div>
+    </div>
+</div>
+
+<div class="row" ng-show="model.roles.length > 0">
+    <table class="table table-condensed table-responsive table-striped xtable-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Subject</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="role in model.roles">
+            <td><a ng-show="role.links.detail" href="#/roles/edit/{{role.data.subject}}" class="btn btn-primary btn-xs">edit</a></td>
+            <td>{{role.data.name}}</td>
+            <td>{{role.data.description}}</td>
+            <td>{{role.data.subject}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="row" ng-show="model.pager">
+    <div class="col-sm-8">
+        <tt-pager-buttons pager="model.pager" path="roles"></tt-pager-buttons>
+    </div>
+    <div class="col-sm-4 pager-text">
+        <tt-pager-summary pager="model.pager"></tt-pager-summary>
+    </div>
+</div>

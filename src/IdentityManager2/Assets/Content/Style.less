@@ -1,0 +1,168 @@
+﻿@import "bootstrap.less";
+
+body {
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+img.logo{
+    position:relative;
+    top:-10px;
+}
+
+img.logo-banner{
+    width:25px;
+    position:relative;
+    top:-3px;
+}
+
+.section {
+    padding: 10px 0;
+}
+
+.line {
+    .section();
+    border-bottom: 1px solid @gray-lighter;
+}
+
+.form-group label{
+    display: inline-block;
+    width: 150px;
+    position:relative;
+}
+
+.dropdown {
+    .dropdown-toggle {
+        cursor: pointer;
+    }
+}
+
+.center-block.pagination {
+    //width:300px;
+}
+
+.pager-text {
+    margin-top: 26px;
+}
+
+.page-header {
+    h1 {
+        .badge {
+            position: relative;
+            top: -5px;
+        }
+
+        .waiting {
+            position: relative;
+            top: -5px;
+            font-size: 35%;
+            -moz-animation: pulse 1s infinite;
+            -o-animation: pulse 1s infinite;
+            -webkit-animation: pulse 1s infinite;
+            animation: pulse 1s infinite;
+        }
+    }
+
+    .label {
+        position: relative;
+        top: 15px;
+    }
+
+    .subject {
+        //color: @gray-light;
+    }
+}
+
+@-moz-keyframes pulse {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}
+
+.errors {
+    margin:0;
+
+    li {
+        list-style-type: none;
+    }
+}
+
+.user-edit-regular.form-control{
+    width:289px;
+}
+.user-edit-wide.form-control{
+    width:582px;
+}
+
+.line .btn{
+    width:60px;
+}
+
+.ng-hide{
+    .hide();
+}
+
+.form-group label input[type="checkbox"]{
+    position:absolute;
+    left:155px;
+}
+
+.user-noroles{
+    margin-top:20px;
+}
+
+.user-roles{
+    .alert{
+        margin-top:20px;
+    }
+    form{
+        .line();
+    }
+    input{
+        margin-left:40px;
+        margin-right:30px;
+    }
+    label {
+        display:inline-block;
+        width:200px;
+    }
+    span {
+
+    }
+}
