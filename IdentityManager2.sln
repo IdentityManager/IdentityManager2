@@ -3,9 +3,33 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27520.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{21035206-B373-4994-901B-2C9E882B5852}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityManager2", "src\IdentityManager2\IdentityManager2.csproj", "{E4718661-6384-4378-82C3-56D66F6E060F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host", "src\Host\Host.csproj", "{D024CAF4-4371-45C5-9728-D06B462CD4B3}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4718661-6384-4378-82C3-56D66F6E060F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4718661-6384-4378-82C3-56D66F6E060F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4718661-6384-4378-82C3-56D66F6E060F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4718661-6384-4378-82C3-56D66F6E060F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D024CAF4-4371-45C5-9728-D06B462CD4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D024CAF4-4371-45C5-9728-D06B462CD4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D024CAF4-4371-45C5-9728-D06B462CD4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D024CAF4-4371-45C5-9728-D06B462CD4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4718661-6384-4378-82C3-56D66F6E060F} = {21035206-B373-4994-901B-2C9E882B5852}
+		{D024CAF4-4371-45C5-9728-D06B462CD4B3} = {21035206-B373-4994-901B-2C9E882B5852}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22A3DD5E-832A-4FFC-B0B9-1A3D07313154}
