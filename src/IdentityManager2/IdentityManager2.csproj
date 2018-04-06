@@ -20,8 +20,7 @@
     <EmbeddedResource Include="Assets\Content\logo.jpg" />
     <EmbeddedResource Include="Assets\Content\logo.png" />
 
-    <EmbeddedResource Include="Assets\Content\Bundle.min.css" />
-
+    <EmbeddedResource Include="Assets\Content\Style.min.css" />
     <EmbeddedResource Include="Assets\Scripts\Bundle.js" />
 
     <EmbeddedResource Include="Assets\Templates\index.html" />
@@ -44,6 +43,24 @@
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.eot" />
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.ttf" />
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="package-lock.json">
+      <DependentUpon>package.json</DependentUpon>
+    </Content>
+    <Content Include="Assets\Content\Style.min.css">
+      <DependentUpon>Assets\Content\Style.css</DependentUpon>
+    </Content>
+    <Content Include="Assets\Content\Style.css">
+      <DependentUpon>Assets\Content\Style.less</DependentUpon>
+    </Content>
+    <Content Include="Assets\Content\Bootstrap.min.css">
+      <DependentUpon>Assets\Content\Bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Assets\Content\Bootstrap.css">
+      <DependentUpon>Assets\Content\Bootstrap.less</DependentUpon>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
