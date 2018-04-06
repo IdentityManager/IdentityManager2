@@ -19,6 +19,7 @@
     <EmbeddedResource Include="Assets\Content\favicon.ico" />
     <EmbeddedResource Include="Assets\Content\logo.jpg" />
     <EmbeddedResource Include="Assets\Content\logo.png" />
+    <EmbeddedResource Include="Assets\Content\rockman.png" />
 
     <EmbeddedResource Include="Assets\Content\Style.min.css" />
     <EmbeddedResource Include="Assets\Scripts\Bundle.js" />
@@ -38,6 +39,7 @@
     <EmbeddedResource Include="Assets\Templates\modal.html" />
     <EmbeddedResource Include="Assets\Templates\message.html" />
     <EmbeddedResource Include="Assets\Templates\navbar.html" />
+    <EmbeddedResource Include="Assets\Templates\footer.html" />
 
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.svg" />
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.eot" />
