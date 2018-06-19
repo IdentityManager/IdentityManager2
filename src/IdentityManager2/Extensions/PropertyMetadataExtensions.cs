@@ -98,7 +98,7 @@ namespace IdentityManager2.Extensions
             return null;
         }
 
-        public static bool TrySet(this IEnumerable<PropertyMetadata> properties, object instance, string name, string value, out IdentityManagerResult result)
+        public static bool TrySet(this IEnumerable<PropertyMetadata> properties, object instance, string name, string value, out Task<IdentityManagerResult> result)
         {
             if (properties == null) throw new ArgumentNullException("properties");
             result = null;
@@ -107,22 +107,31 @@ namespace IdentityManager2.Extensions
             {
                 return executableProperty.TrySet(instance, value, out result);
             }
+
+            if (properties.SingleOrDefault(x => x.Type == name) is AsyncExecutablePropertyMetadata asyncExecutableProperty)
+            {
+                return asyncExecutableProperty.TrySet(instance, value, out result);
+            }
+
             return false;
         }
 
-        public static bool TrySet(this PropertyMetadata property, object instance, string value, out IdentityManagerResult result)
+        public static bool TrySet(this PropertyMetadata property, object instance, string value, out Task<IdentityManagerResult> result)
         {
             if (property == null) throw new ArgumentNullException("property");
             result = null;
 
             if (property is ExecutablePropertyMetadata executableProperty)
             {
-                result = executableProperty.Set(instance, value);
-                if (result != null)
-                {
-                    result.IsSuccess = true;
-                }
+                result = Task.FromResult(executableProperty.Set(instance, value));
                 
+                return true;
+            }
+
+            if (property is AsyncExecutablePropertyMetadata asyncExecutableProperty)
+            {
+                result = asyncExecutableProperty.Set(instance, value);
+
                 return true;
             }
 

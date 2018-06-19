@@ -108,30 +108,30 @@ namespace Host.InMemory
             return Task.FromResult(GetMetadata());
         }
 
-        public Task<IdentityManagerResult<CreateResult>> CreateUserAsync(IEnumerable<PropertyValue> properties)
+        public async Task<IdentityManagerResult<CreateResult>> CreateUserAsync(IEnumerable<PropertyValue> properties)
         {
             var errors = ValidateUserProperties(properties);
-            if (errors.Any()) return Task.FromResult(new IdentityManagerResult<CreateResult>(errors.ToArray()));
+            if (errors.Any()) return new IdentityManagerResult<CreateResult>(errors.ToArray());
             
             var user = new InMemoryUser();
             var createPropsMeta = GetMetadata().UserMetadata.GetCreateProperties();
             foreach (var prop in  properties)
             {
-                var result = SetUserProperty(createPropsMeta, user, prop.Type, prop.Value);
+                var result = await SetUserProperty(createPropsMeta, user, prop.Type, prop.Value);
                 if (!result.IsSuccess)
                 {
-                    return Task.FromResult(new IdentityManagerResult<CreateResult>(result.Errors.ToArray()));
+                    return new IdentityManagerResult<CreateResult>(result.Errors.ToArray());
                 }
             }
 
             if (users.Any(x => x.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)))
             {
-                return Task.FromResult(new IdentityManagerResult<CreateResult>("Username already in use."));
+                return new IdentityManagerResult<CreateResult>("Username already in use.");
             }
 
             users.Add(user);
 
-            return Task.FromResult(new IdentityManagerResult<CreateResult>(new CreateResult() { Subject = user.Subject }));
+            return new IdentityManagerResult<CreateResult>(new CreateResult() { Subject = user.Subject });
         }
 
         public Task<IdentityManagerResult> DeleteUserAsync(string subject)
@@ -215,7 +215,7 @@ namespace Host.InMemory
             if (errors.Any()) return Task.FromResult(new IdentityManagerResult(errors.ToArray()));
             
             var result = SetUserProperty(GetMetadata().UserMetadata.UpdateProperties, user, type, value);
-            return Task.FromResult(result);
+            return result;
         }
 
         public Task<IdentityManagerResult> AddUserClaimAsync(string subject, string type, string value)
@@ -258,7 +258,7 @@ namespace Host.InMemory
             return GetUserProperty(property, user);
         }
 
-        private IdentityManagerResult SetUserProperty(IEnumerable<PropertyMetadata> propsMeta, InMemoryUser user, string type, string value)
+        private Task<IdentityManagerResult> SetUserProperty(IEnumerable<PropertyMetadata> propsMeta, InMemoryUser user, string type, string value)
         {
             if (propsMeta.TrySet(user, type, value, out var result)) return result;
             
@@ -280,7 +280,7 @@ namespace Host.InMemory
                     throw new InvalidOperationException("Invalid Property Type : " + type);
             }
 
-            return IdentityManagerResult.Success;
+            return Task.FromResult(IdentityManagerResult.Success);
         }
 
         private IEnumerable<string> ValidateUserProperties(IEnumerable<PropertyValue> properties)
@@ -307,29 +307,29 @@ namespace Host.InMemory
             return Enumerable.Empty<string>();
         }
 
-        public Task<IdentityManagerResult<CreateResult>> CreateRoleAsync(IEnumerable<PropertyValue> properties)
+        public async Task<IdentityManagerResult<CreateResult>> CreateRoleAsync(IEnumerable<PropertyValue> properties)
         {
             var errors = ValidateRoleProperties(properties);
-            if (errors.Any()) return Task.FromResult(new IdentityManagerResult<CreateResult>(errors.ToArray()));
+            if (errors.Any()) return new IdentityManagerResult<CreateResult>(errors.ToArray());
             
 
             var role = new InMemoryRole();
             var createPropsMeta = GetMetadata().RoleMetadata.GetCreateProperties();
             foreach (var prop in properties)
             {
-                var result = SetRoleProperty(createPropsMeta, role, prop.Type, prop.Value);
-                if (!result.IsSuccess) return Task.FromResult(new IdentityManagerResult<CreateResult>(result.Errors.ToArray()));
+                var result = await SetRoleProperty(createPropsMeta, role, prop.Type, prop.Value);
+                if (!result.IsSuccess) return new IdentityManagerResult<CreateResult>(result.Errors.ToArray());
                 
             }
 
             if (roles.Any(x => x.Name.Equals(role.Name, StringComparison.OrdinalIgnoreCase)))
             {
-                return Task.FromResult(new IdentityManagerResult<CreateResult>("Role name already in use."));
+                return new IdentityManagerResult<CreateResult>("Role name already in use.");
             }
 
             roles.Add(role);
 
-            return Task.FromResult(new IdentityManagerResult<CreateResult>(new CreateResult() { Subject = role.ID }));
+            return new IdentityManagerResult<CreateResult>(new CreateResult() { Subject = role.ID });
         }
 
         public Task<IdentityManagerResult> DeleteRoleAsync(string subject)
@@ -426,7 +426,7 @@ namespace Host.InMemory
             if (errors.Any()) return Task.FromResult(new IdentityManagerResult(errors.ToArray()));
             
             var result = SetRoleProperty(GetMetadata().RoleMetadata.UpdateProperties, role, type, value);
-            return Task.FromResult(result);
+            return result;
         }
 
         private async Task<string> GetRoleProperty(PropertyMetadata property, InMemoryRole role)
@@ -435,7 +435,7 @@ namespace Host.InMemory
             throw new Exception("Invalid property type " + property.Type);
         }
 
-        private IdentityManagerResult SetRoleProperty(IEnumerable<PropertyMetadata> propsMeta, InMemoryRole role, string type, string value)
+        private Task<IdentityManagerResult> SetRoleProperty(IEnumerable<PropertyMetadata> propsMeta, InMemoryRole role, string type, string value)
         {
             if (propsMeta.TrySet(role, type, value, out var result)) return result;
             throw new InvalidOperationException("Invalid Property Type : " + type);
