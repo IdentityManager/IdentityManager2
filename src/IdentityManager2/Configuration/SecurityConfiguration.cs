@@ -12,7 +12,6 @@ namespace IdentityManager2.Configuration
         public string HostAuthenticationType { get; set; }
         public string AdditionalSignOutType { get; set; }
 
-        public bool RequireSsl { get; set; }
         public string BearerAuthenticationType { get; set; }
         public TimeSpan TokenExpiration { get; set; }
 
@@ -24,7 +23,6 @@ namespace IdentityManager2.Configuration
 
         public SecurityConfiguration()
         {
-            RequireSsl = true;
             BearerAuthenticationType = Constants.BearerAuthenticationType;
             TokenExpiration = Constants.DefaultTokenExpiration;
             
