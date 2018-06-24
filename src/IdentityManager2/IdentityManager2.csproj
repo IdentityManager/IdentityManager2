@@ -4,11 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>IdentityManager is an user management tool for ASP.NET Core Identity. Maintained by Rock Solid Knowledge.</Description>
     <VersionPrefix>1.0.0</VersionPrefix>
-    <VersionSuffix>beta3</VersionSuffix>
+    <VersionSuffix>beta4</VersionSuffix>
     <Authors>Scott Brady</Authors>
     <AssemblyName>IdentityManager2</AssemblyName>
     <PackageId>IdentityManager2</PackageId>
-    <PackageTags>IdentityManager;Identity</PackageTags>
+    <PackageTags>IdentityManager;IdentityManager2;Identity</PackageTags>
     <PackageIconUrl>https://identityserver.github.io/Documentation/assets/images/icons/IDmanager_icon144.jpg</PackageIconUrl>
     <PackageProjectUrl>https://github.com/IdentityManager/IdentityManager2</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/IdentityManager/IdentityManager2/blob/master/LICENSE</PackageLicenseUrl>
@@ -62,13 +62,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
