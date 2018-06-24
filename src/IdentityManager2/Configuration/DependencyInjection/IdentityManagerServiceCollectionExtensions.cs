@@ -50,7 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 options.AddPolicy(Constants.IdMgrAuthPolicy, config =>
                 {
-                    config.RequireClaim(Constants.ClaimTypes.Role, Constants.AdminRoleName);
+                    config.RequireClaim(identityManagerOptions.SecurityConfiguration.RoleClaimType, identityManagerOptions.SecurityConfiguration.AdminRoleName);
                     config.AddAuthenticationSchemes(identityManagerOptions.SecurityConfiguration.BearerAuthenticationType);
                 });
             });

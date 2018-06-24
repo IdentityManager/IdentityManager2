@@ -5,7 +5,6 @@ namespace IdentityManager2.Core
     public class Constants
     {
         public const string LocalAuthenticationType = "idmgr.Local";
-        public const string CookieAuthenticationType = "Cookies";
         public const string BearerAuthenticationType = "idmgr.Bearer";
 
         public const string AuthorizePath = "/authorize";
@@ -15,8 +14,6 @@ namespace IdentityManager2.Core
         public const string AdminRoleName = "IdentityManagerAdministrator";
 
         public const string IdMgrAuthPolicy = "idmgr";
-
-        internal const string AutofacScope = "idm:AutofacScope";
 
         public static readonly TimeSpan DefaultTokenExpiration = TimeSpan.FromHours(10);
 
@@ -34,7 +31,6 @@ namespace IdentityManager2.Core
             public const string Email = "email";
             public const string Phone = "phone";
             public const string Role = "role";
-            public const string BootstrapToken = "bootstrap-token";
         }
 
         public class RouteNames
@@ -57,7 +53,6 @@ namespace IdentityManager2.Core
 
             public const string Home = "Home";
             public const string Logout = "Logout";
-            public const string OAuthFrameCallback = "FrameCallback";
         }
     }
 }
