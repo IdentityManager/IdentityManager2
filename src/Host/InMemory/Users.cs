@@ -66,7 +66,7 @@ namespace Host.InMemory
 
         private static string GenName()
         {
-            var firstChar = (char)((rnd.Next(26)) + 65);
+            var firstChar = (char)(rnd.Next(26) + 65);
             var username = firstChar.ToString();
             for (var j = 0; j < 6; j++)
             {
