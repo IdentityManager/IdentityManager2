@@ -28,7 +28,7 @@ namespace IdentityManager2.Configuration.Hosting
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var identity = model.Principal.Identities.First(x => x.AuthenticationType == model.AuthenticationScheme);
+            var identity = model.Principal.Identities.First();
             if (identity == null) throw new InvalidOperationException("Invalid identity type");
 
             using (var ms = new MemoryStream())

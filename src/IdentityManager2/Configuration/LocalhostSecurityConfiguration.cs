@@ -9,6 +9,7 @@ namespace IdentityManager2.Configuration
         public LocalhostSecurityConfiguration()
         {
             HostAuthenticationType = Constants.LocalAuthenticationType;
+            HostChallengeType = Constants.LocalAuthenticationType;
         }
 
         public override void Configure(IServiceCollection services)

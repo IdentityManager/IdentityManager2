@@ -10,6 +10,7 @@ namespace IdentityManager2.Configuration
     public class SecurityConfiguration
     {
         public string HostAuthenticationType { get; set; }
+        public string HostChallengeType { get; set; }
         public string AdditionalSignOutType { get; set; }
 
         public string BearerAuthenticationType { get; set; }

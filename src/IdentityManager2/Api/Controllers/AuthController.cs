@@ -28,7 +28,7 @@ namespace IdentityManager2.Api.Controllers
             if (model.ResponseType != "token") return StatusCode(401);
             
             var result = await HttpContext.AuthenticateAsync(options.SecurityConfiguration.HostAuthenticationType);
-            if (!result.Succeeded) return Challenge(options.SecurityConfiguration.HostAuthenticationType);
+            if (!result.Succeeded) return Challenge(options.SecurityConfiguration.HostChallengeType);
 
             var token = tokenProvider.Generate(result.Ticket);
             var expiresIn = (long)options.SecurityConfiguration.TokenExpiration.TotalSeconds;
