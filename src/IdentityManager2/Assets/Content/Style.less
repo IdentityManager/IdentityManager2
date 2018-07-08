@@ -1,6 +1,4 @@
-﻿@import "bootstrap.less";
-
-html {
+﻿html {
     position: relative;
     min-height: 100%;
 }
@@ -8,6 +6,10 @@ html {
 body {
     margin-top: 60px;
     margin-bottom: 60px;
+}
+
+.navbar-brand > img {
+    display: inline;
 }
 
 img.logo {
@@ -48,7 +50,7 @@ img.logo-footer {
 
 .line {
     .section();
-    border-bottom: 1px solid @gray-lighter;
+    border-bottom: 1px solid lighten(#000, 93.5%);
 }
 
 .form-group label {
@@ -162,7 +164,7 @@ img.logo-footer {
 }
 
 .ng-hide {
-    .hide();
+    display: none !important;
 }
 
 .form-group label input[type="checkbox"] {

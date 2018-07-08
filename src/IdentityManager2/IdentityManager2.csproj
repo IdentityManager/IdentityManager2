@@ -44,21 +44,9 @@
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.eot" />
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.ttf" />
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Content\Style.min.css">
-      <DependentUpon>Assets\Content\Style.css</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Assets\Content\Style.css">
-      <DependentUpon>Assets\Content\Style.less</DependentUpon>
-    </None>
-    <EmbeddedResource Include="Assets\Content\Bootstrap.min.css">
-      <DependentUpon>Assets\Content\Bootstrap.css</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Assets\Content\Bootstrap.css">
-      <DependentUpon>Assets\Content\Bootstrap.less</DependentUpon>
-    </None>
+    
+    <EmbeddedResource Include="Assets\Content\bootstrap.min.css" />
+    <EmbeddedResource Include="Assets\Content\Style.min.css" />
   </ItemGroup>
 
   <ItemGroup>
