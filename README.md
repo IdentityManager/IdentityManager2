@@ -6,4 +6,6 @@ IdentityManager2 is a tool for developers and/or administrators to manage the id
 
 IdentityManager2 is a development tool and is not designed to be used in production. For production identity management see [AdminUI](https://www.identityserver.com/products).
 
+For example usage see "[Getting Started with IdentityManager2](https://www.scottbrady91.com/ASPNET-Identity/Getting-Started-with-IdentityManager2)"
+
 Developed and maintained by [Rock Solid Knowledge](https://www.identityserver.com).
