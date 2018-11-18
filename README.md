@@ -8,4 +8,6 @@ IdentityManager2 is a development tool and is not designed to be used in product
 
 For example usage see "[Getting Started with IdentityManager2](https://www.scottbrady91.com/ASPNET-Identity/Getting-Started-with-IdentityManager2)"
 
+**Currently this is a port of the original IdentityManager dev tool. If you're interested in helping to drag the code base into 2018, then check out the issue tracker.**
+
 Developed and maintained by [Rock Solid Knowledge](https://www.identityserver.com).
