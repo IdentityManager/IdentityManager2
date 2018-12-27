@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -23,7 +23,6 @@
 
     <EmbeddedResource Include="Assets\Scripts\Bundle.js" />
 
-    <EmbeddedResource Include="Assets\Templates\index.html" />
     <EmbeddedResource Include="Assets\Templates\home.html" />
     <EmbeddedResource Include="Assets\Templates\users\edit.html" />
     <EmbeddedResource Include="Assets\Templates\users\list.html" />

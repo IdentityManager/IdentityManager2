@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IdentityManager2.Assets;
+using IdentityManager2.Api.Models;
 using IdentityManager2.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace IdentityManager2.Api.Controllers
 {
@@ -23,10 +24,20 @@ namespace IdentityManager2.Api.Controllers
         [Route("", Name = IdentityManagerConstants.RouteNames.Home)]
         public IActionResult Index()
         {
-            return new EmbeddedHtmlResult(
-                Request.PathBase, 
-                "IdentityManager2.Assets.Templates.index.html",
-                config.SecurityConfiguration);
+            return View("/Areas/IdentityManager/Pages/Index.cshtml", new PageModel
+            {
+                PathBase = Request.PathBase,
+                Model = JsonConvert.SerializeObject(new
+                {
+                    PathBase = Request.PathBase,
+                    ShowLoginButton = config.SecurityConfiguration.ShowLoginButton,
+                    oauthSettings = new
+                    {
+                        authorization_endpoint = Request.PathBase + Constants.AuthorizePath,
+                        client_id = Constants.IdMgrClientId
+                    }
+                })
+            });
         }
 
         [HttpGet]
