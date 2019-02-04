@@ -49,6 +49,7 @@ namespace IdentityManager2.Core.Metadata
 
             var meta = new ExpressionPropertyMetadata<TContainer, TProperty>(name, get, set);
             if (name != null) meta.Type = name;
+            if (displayName != null) meta.Name = displayName;
             if (dataType != null) meta.DataType = dataType.Value;
             if (required != null) meta.Required = required.Value;
 
@@ -69,6 +70,7 @@ namespace IdentityManager2.Core.Metadata
 
             var meta = new AsyncExpressionPropertyMetadata<TContainer, TProperty>(name, get, set);
             if (name != null) meta.Type = name;
+            if (displayName != null) meta.Name = displayName;
             if (dataType != null) meta.DataType = dataType.Value;
             if (required != null) meta.Required = required.Value;
 
