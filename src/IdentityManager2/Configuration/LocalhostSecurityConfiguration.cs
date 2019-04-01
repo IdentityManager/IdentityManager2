@@ -10,6 +10,7 @@ namespace IdentityManager2.Configuration
         {
             HostAuthenticationType = Constants.LocalAuthenticationType;
             HostChallengeType = Constants.LocalAuthenticationType;
+            ShowLoginButton = false;
         }
 
         public override void Configure(IServiceCollection services)

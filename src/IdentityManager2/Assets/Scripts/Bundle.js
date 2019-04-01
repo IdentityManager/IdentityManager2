@@ -1118,8 +1118,8 @@ function(d){f.current.pathParams[d]||(b[d]=a[d])});a=d.extend({},this.current.pa
             idmErrorService.clear();
             $rootScope.layout.username = null;
             $rootScope.layout.links = null;
-            $rootScope.layout.showLogout = true; // TODO: logout button
-            $rootScope.layout.showLogin = true; // TODO: login button
+            $rootScope.layout.showLogout = ShowLoginButton; // TODO: logout button
+            $rootScope.layout.showLogin = false; // TODO: login button
         }
 
         function load() {
