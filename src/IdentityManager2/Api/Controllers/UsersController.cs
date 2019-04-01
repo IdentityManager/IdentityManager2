@@ -16,7 +16,7 @@ using static System.String;
 namespace IdentityManager2.Api.Controllers
 {
     [Route(Constants.UserRoutePrefix)]
-    [Authorize(Constants.IdMgrAuthPolicy)]
+    // [Authorize(Constants.IdMgrAuthPolicy)]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class UsersController : Controller
     {

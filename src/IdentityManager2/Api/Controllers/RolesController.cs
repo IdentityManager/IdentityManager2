@@ -14,7 +14,7 @@ using static System.String;
 namespace IdentityManager2.Api.Controllers
 {
     [Route(Constants.RoleRoutePrefix)]
-    [Authorize(Constants.IdMgrAuthPolicy)]
+    // [Authorize(Constants.IdMgrAuthPolicy)]
     [ResponseCache(NoStore=true, Location=ResponseCacheLocation.None)]
     public class RolesController : Controller
     {

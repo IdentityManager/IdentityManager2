@@ -13,14 +13,12 @@ namespace IdentityManager2.Assets
         private readonly string path;
         private readonly string file;
         private readonly SecurityConfiguration securityConfiguration;
-        private readonly string authorizationEndpoint;
 
         public EmbeddedHtmlResult(PathString pathBase, string file, SecurityConfiguration securityConfiguration)
         {
             path = pathBase.Value;
             this.file = file;
             this.securityConfiguration = securityConfiguration;
-            authorizationEndpoint = pathBase + Constants.AuthorizePath;
         }
 
         public async Task ExecuteResultAsync(ActionContext context)
@@ -32,12 +30,7 @@ namespace IdentityManager2.Assets
                     model = JsonConvert.SerializeObject(new
                     {
                         PathBase = path,
-                        ShowLoginButton = securityConfiguration.ShowLoginButton,
-                        oauthSettings = new
-                        {
-                            authorization_endpoint = authorizationEndpoint,
-                            client_id = Constants.IdMgrClientId
-                        }
+                        ShowLoginButton = securityConfiguration.ShowLoginButton
                     })
                 });
 

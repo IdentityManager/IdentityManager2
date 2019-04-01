@@ -1,32 +1,21 @@
 ﻿/// <reference path="../Libs/angular.min.js" />
-/// <reference path="../Libs/oidc-token-manager.min.js" />
 
 (function (angular) {
     var app = angular.module("ttIdm", []);
 
     function config($httpProvider) {
-        function intercept($q, idmTokenManager, idmErrorService) {
+        function intercept($q, idmErrorService) {
             return {
                 'request': function (config) {
                     idmErrorService.clear();
-                    var token = idmTokenManager.access_token;
-                    if (token) {
-                        config.headers['Authorization'] = 'Bearer ' + token;
-                    }
                     return config;
                 },
                 'responseError': function (response) {
-                    if (response.status === 401) {
-                        //idmTokenManager.removeToken();
-                    }
-                    if (response.status === 403) {
-                        //idmTokenManager.removeToken();
-                    }
                     return $q.reject(response);
                 }
             };
         };
-        intercept.$inject = ["$q", "idmTokenManager", "idmErrorService"];
+        intercept.$inject = ["$q", "idmErrorService"];
         $httpProvider.interceptors.push(intercept);
     };
     config.$inject = ["$httpProvider"];
@@ -54,38 +43,8 @@
     idmErrorService.$inject = ["$rootScope", "$timeout"];
     app.factory("idmErrorService", idmErrorService);
 
-    function idmTokenManager(OidcTokenManager, oauthSettings, PathBase, $window, $rootScope) {
-
-        oauthSettings.response_type = "token";
-
-        var mgr = new OidcTokenManager(oauthSettings);
-
-        var applyFuncs = [
-                "_callTokenRemoved", "_callTokenExpiring",
-                "_callTokenExpired", "_callTokenObtained",
-                "_callSilentTokenRenewFailed"
-        ];
-        applyFuncs.forEach(function (name) {
-            var tmp = mgr[name].bind(mgr);
-            mgr[name] = function () {
-                $rootScope.$applyAsync(function () {
-                    tmp();
-                });
-            }
-        });
-
-        return mgr;
-    }
-
-    idmTokenManager.$inject = ["OidcTokenManager", "oauthSettings", "PathBase", "$window", "$rootScope"];
-    app.factory("idmTokenManager", idmTokenManager);
-
-    function idmApi(idmTokenManager, $http, $q, PathBase) {
+    function idmApi($http, $q, PathBase) {
         var cache = null;
-
-        idmTokenManager.addOnTokenRemoved(function () {
-            cache = null;
-        });
 
         return {
             get: function () {
@@ -111,7 +70,7 @@
         };
     }
 
-    idmApi.$inject = ["idmTokenManager", "$http", "$q", "PathBase"];
+    idmApi.$inject = ["$http", "$q", "PathBase"];
     app.factory("idmApi", idmApi);
 
     function idmUsers($http, idmApi, $log) {
@@ -252,5 +211,4 @@
     for (var key in model) {
         angular.module("ttIdm").constant(key, model[key]);
     }
-    angular.module("ttIdm").constant("OidcTokenManager", OidcTokenManager);
 })(angular);
