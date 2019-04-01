@@ -1,9 +1,7 @@
 ﻿using System;
 using IdentityManager2;
 using IdentityManager2.Configuration;
-using IdentityManager2.Configuration.Hosting;
 using IdentityManager2.Core;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -34,8 +32,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new UrlHelper(actionContext);
             });
 
-            builder.Services.AddTransient<ITokenProvider<AuthenticationTicket>, AuthenticationTicketTokenProvider>();
-
             builder.Services.AddOptions();
 
             var identityManagerOptions = services.BuildServiceProvider().GetRequiredService<IOptions<IdentityManagerOptions>>().Value;
@@ -51,12 +47,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.AddPolicy(Constants.IdMgrAuthPolicy, config =>
                 {
                     config.RequireClaim(identityManagerOptions.SecurityConfiguration.RoleClaimType, identityManagerOptions.SecurityConfiguration.AdminRoleName);
-                    config.AddAuthenticationSchemes(identityManagerOptions.SecurityConfiguration.BearerAuthenticationType);
+                    config.AddAuthenticationSchemes(Constants.LocalApiScheme);
                 });
             });
 
-            services.AddAuthentication()
-                .AddScheme<LocalBearerAuthenticationOptions, LocalBearerAuthenticationHandler>(Constants.BearerAuthenticationType, opt => { });
+            services.AddAuthentication();
             identityManagerOptions.SecurityConfiguration.Configure(services);
             
             return builder;

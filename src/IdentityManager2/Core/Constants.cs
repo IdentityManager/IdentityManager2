@@ -5,17 +5,10 @@ namespace IdentityManager2.Core
     public class Constants
     {
         public const string LocalAuthenticationType = "idmgr.Local";
-        public const string BearerAuthenticationType = "idmgr.Bearer";
+        public const string LocalApiScheme = "idmgr.api";
 
-        public const string AuthorizePath = "/authorize";
-        public const string CallbackFragment = "/#/callback/";
-        public const string IdMgrClientId = "idmgr";
-        public const string IdMgrScope = "idmgr";
         public const string AdminRoleName = "IdentityManagerAdministrator";
-
         public const string IdMgrAuthPolicy = "idmgr";
-
-        public static readonly TimeSpan DefaultTokenExpiration = TimeSpan.FromHours(10);
 
         public const string RoutePrefix = "api";
         public const string MetadataRoutePrefix = RoutePrefix + "";
