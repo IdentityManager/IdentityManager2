@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using IdentityManager2.Assets;
 using IdentityManager2.Configuration;
 using IdentityManager2.Core;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace IdentityManager2.Api.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Constants.IdMgrAuthPolicy)]
         [Route("", Name = Constants.RouteNames.Home)]
         public IActionResult Index()
         {
@@ -27,6 +28,21 @@ namespace IdentityManager2.Api.Controllers
                 Request.PathBase, 
                 "IdentityManager2.Assets.Templates.index.html",
                 config.SecurityConfiguration);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/login", Name = Constants.RouteNames.Login)]
+        public async Task<IActionResult> Login(string returnUrl)
+        {
+            var result = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+            if (result.Succeeded)
+            {
+                await HttpContext.SignInAsync(Constants.LocalApiScheme, result.Principal);
+                return Redirect(returnUrl);
+            }
+
+            return Challenge(config.SecurityConfiguration.HostChallengeType);
         }
 
         [HttpGet]

@@ -45,6 +45,7 @@ namespace IdentityManager2.Core
             public const string UpdateRoleProperty = "UpdateRoleProperty";
 
             public const string Home = "Home";
+            public const string Login = "Login";
             public const string Logout = "Logout";
         }
     }

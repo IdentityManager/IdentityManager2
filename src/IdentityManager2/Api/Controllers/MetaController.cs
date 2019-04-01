@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IdentityManager2.Api.Controllers
 {
     [Route(Constants.MetadataRoutePrefix)]
-    // [Authorize(Constants.IdMgrAuthPolicy)]
+    [Authorize(Constants.IdMgrAuthPolicy)]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class MetaController : Controller
     {

@@ -51,7 +51,17 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
             });
 
-            services.AddAuthentication();
+            services.AddAuthentication()
+                .AddCookie(Constants.LocalApiScheme, options =>
+                {
+                    options.Cookie.SameSite = SameSiteMode.Strict;
+                    // options.Cookie.Path = "/api";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+                    options.LoginPath = "/api/login";
+                });
             identityManagerOptions.SecurityConfiguration.Configure(services);
             
             return builder;

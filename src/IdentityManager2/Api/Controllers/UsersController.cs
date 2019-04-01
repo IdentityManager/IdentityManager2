@@ -16,7 +16,7 @@ using static System.String;
 namespace IdentityManager2.Api.Controllers
 {
     [Route(Constants.UserRoutePrefix)]
-    // [Authorize(Constants.IdMgrAuthPolicy)]
+    [Authorize(Constants.IdMgrAuthPolicy)] // TODO: Ensure schemes configurable (e.g. re-add OAuth)
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class UsersController : Controller
     {
