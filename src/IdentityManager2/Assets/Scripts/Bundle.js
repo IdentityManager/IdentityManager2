@@ -1125,14 +1125,12 @@ function(d){f.current.pathParams[d]||(b[d]=a[d])});a=d.extend({},this.current.pa
         function load() {
             removed();
 
-            // if (!idmTokenManager.expired) { // TODO: username
-                idmApi.get().then(function (api) {
-                    $rootScope.layout.username = api.data.currentUser.username;
-                    $rootScope.layout.links = api.links;
-                }, function (err) {
-                    idmErrorService.show(err);
-                });
-            // }
+            idmApi.get().then(function (api) {
+                $rootScope.layout.username = api.data.currentUser.username; // TODO: username
+                $rootScope.layout.links = api.links;
+            }, function (err) {
+                idmErrorService.show(err);
+            });
         }
 
         load();
