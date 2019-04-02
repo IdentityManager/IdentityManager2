@@ -1,5 +1,4 @@
 ﻿using IdentityManager2.Configuration.Hosting;
-using IdentityManager2.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityManager2.Configuration
@@ -8,8 +7,8 @@ namespace IdentityManager2.Configuration
     {
         public LocalhostSecurityConfiguration()
         {
-            HostAuthenticationType = Constants.LocalAuthenticationType;
-            HostChallengeType = Constants.LocalAuthenticationType;
+            HostAuthenticationType = IdentityManagerConstants.LocalAuthenticationType;
+            HostChallengeType = IdentityManagerConstants.LocalAuthenticationType;
             ShowLoginButton = false;
         }
 

@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityManager2.Api.Models;
-using IdentityManager2.Core;
 using IdentityManager2.Core.Metadata;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityManager2.Api.Controllers
 {
-    [Route(Constants.MetadataRoutePrefix)]
-    [Authorize(Constants.IdMgrAuthPolicy)]
+    [Route(IdentityManagerConstants.MetadataRoutePrefix)]
+    [Authorize(IdentityManagerConstants.IdMgrAuthPolicy)]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class MetaController : Controller
     {

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using IdentityManager2.Assets;
 using IdentityManager2.Configuration;
-using IdentityManager2.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +19,8 @@ namespace IdentityManager2.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Constants.IdMgrAuthPolicy)]
-        [Route("", Name = Constants.RouteNames.Home)]
+        [Authorize(IdentityManagerConstants.IdMgrAuthPolicy)]
+        [Route("", Name = IdentityManagerConstants.RouteNames.Home)]
         public IActionResult Index()
         {
             return new EmbeddedHtmlResult(
@@ -32,13 +31,13 @@ namespace IdentityManager2.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("api/login", Name = Constants.RouteNames.Login)]
+        [Route("api/login", Name = IdentityManagerConstants.RouteNames.Login)]
         public async Task<IActionResult> Login(string returnUrl)
         {
             var result = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
             if (result.Succeeded)
             {
-                await HttpContext.SignInAsync(Constants.LocalApiScheme, result.Principal);
+                await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, result.Principal);
                 return Redirect(returnUrl);
             }
 
@@ -47,11 +46,11 @@ namespace IdentityManager2.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("logout", Name = Constants.RouteNames.Logout)]
+        [Route("logout", Name = IdentityManagerConstants.RouteNames.Logout)]
         public async Task<IActionResult> Logout()
         {
             await config.SecurityConfiguration.SignOut(HttpContext);
-            return RedirectToRoute(Constants.RouteNames.Home, null);
+            return RedirectToRoute(IdentityManagerConstants.RouteNames.Home, null);
         }
     }
 }

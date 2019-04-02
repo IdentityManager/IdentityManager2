@@ -24,7 +24,7 @@ namespace IdentityManager2.Api.Models
             var links = new Dictionary<string, string>();
             if (meta.SupportsDelete)
             {
-                links["delete"] = url.Link(Constants.RouteNames.DeleteRole, new { subject = role.Subject });
+                links["delete"] = url.Link(IdentityManagerConstants.RouteNames.DeleteRole, new { subject = role.Subject });
             }
             Links = links;
         }
@@ -53,7 +53,7 @@ namespace IdentityManager2.Api.Models
                         Meta = m,
                         Links = new
                         {
-                            update = url.Link(Constants.RouteNames.UpdateRoleProperty,
+                            update = url.Link(IdentityManagerConstants.RouteNames.UpdateRoleProperty,
                                 new
                                 {
                                     subject = role.Subject,

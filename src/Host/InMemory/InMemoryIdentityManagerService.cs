@@ -29,14 +29,14 @@ namespace Host.InMemory
             {
                 var createprops = new List<PropertyMetadata>()
                 {
-                    PropertyMetadata.FromProperty<InMemoryUser>(x => x.Username, name:Constants.ClaimTypes.Username, required:true),
+                    PropertyMetadata.FromProperty<InMemoryUser>(x => x.Username, name:IdentityManagerConstants.ClaimTypes.Username, required:true),
                 };
 
                 var updateprops = new List<PropertyMetadata>();
                 updateprops.AddRange(new PropertyMetadata[]{
-                    PropertyMetadata.FromProperty<InMemoryUser>(x => x.Username, name:Constants.ClaimTypes.Username, required:true),
-                    PropertyMetadata.FromPropertyName<InMemoryUser>("Password", name:Constants.ClaimTypes.Password, required:true),
-                    PropertyMetadata.FromFunctions<InMemoryUser, string>(Constants.ClaimTypes.Name, u => GetName(u), SetName, displayName:"DisplayName", required:true),
+                    PropertyMetadata.FromProperty<InMemoryUser>(x => x.Username, name:IdentityManagerConstants.ClaimTypes.Username, required:true),
+                    PropertyMetadata.FromPropertyName<InMemoryUser>("Password", name:IdentityManagerConstants.ClaimTypes.Password, required:true),
+                    PropertyMetadata.FromFunctions<InMemoryUser, string>(IdentityManagerConstants.ClaimTypes.Name, u => GetName(u), SetName, displayName:"DisplayName", required:true),
                 });
                 updateprops.AddRange(PropertyMetadata.FromType<InMemoryUser>());
                 updateprops.AddRange(new PropertyMetadata[]{
@@ -76,7 +76,7 @@ namespace Host.InMemory
                     },
                     RoleMetadata = new RoleMetadata
                     {
-                        RoleClaimType = Constants.ClaimTypes.Role,
+                        RoleClaimType = IdentityManagerConstants.ClaimTypes.Role,
                         SupportsCreate = true,
                         SupportsDelete = true,
                         CreateProperties = roleCreateProps,
@@ -91,7 +91,7 @@ namespace Host.InMemory
         { 
             if(user == null) throw new ArgumentNullException();
         
-            return user.Claims.GetValue(Constants.ClaimTypes.Name);
+            return user.Claims.GetValue(IdentityManagerConstants.ClaimTypes.Name);
         }
 
         private IdentityManagerResult SetName(InMemoryUser user, string value)
@@ -99,7 +99,7 @@ namespace Host.InMemory
             if (user == null) throw new ArgumentNullException("SetName::" + string.Format(ExceptionMessages.IsNotAssigned, user));
             if (value == null) throw new ArgumentNullException("SetName::" + string.Format(ExceptionMessages.IsNotAssigned, value));
 
-            user.Claims.SetValue(Constants.ClaimTypes.Name, value);
+            user.Claims.SetValue(IdentityManagerConstants.ClaimTypes.Name, value);
             return IdentityManagerResult.Success;
         }
 
@@ -152,7 +152,7 @@ namespace Host.InMemory
                 filter = filter.ToLower();
                 query =
                     from u in query
-                    let names = (from c in u.Claims where c.Type == Constants.ClaimTypes.Name select c.Value.ToLower())
+                    let names = (from c in u.Claims where c.Type == IdentityManagerConstants.ClaimTypes.Name select c.Value.ToLower())
                     where
                         u.Username.ToLower().Contains(filter) ||
                         names.Contains(filter)
@@ -165,7 +165,7 @@ namespace Host.InMemory
                 {
                     Subject = u.Subject,
                     Username = u.Username,
-                    Name = u.Claims.Where(x => x.Type == Constants.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault(),
+                    Name = u.Claims.Where(x => x.Type == IdentityManagerConstants.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault(),
                 };
             var total = items.Count();
 
@@ -200,7 +200,7 @@ namespace Host.InMemory
             {
                 Subject = user.Subject,
                 Username = user.Username,
-                Name = user.Claims.GetValue(Constants.ClaimTypes.Name),
+                Name = user.Claims.GetValue(IdentityManagerConstants.ClaimTypes.Name),
                 Properties = props,
                 Claims = user.Claims.Select(x => new ClaimValue { Type = x.Type, Value = x.Value })
             });
@@ -245,7 +245,7 @@ namespace Host.InMemory
             switch (property.Type)
             {
                 case "role.admin":
-                    return user.Claims.HasValue(Constants.ClaimTypes.Role, "admin").ToString().ToLower();
+                    return user.Claims.HasValue(IdentityManagerConstants.ClaimTypes.Role, "admin").ToString().ToLower();
                 case "gravatar":
                     return user.Claims.GetValue("gravatar");
             }
@@ -267,8 +267,8 @@ namespace Host.InMemory
                 case "role.admin":
                     {
                         var val = bool.Parse(value);
-                        if (val) user.Claims.AddClaim(Constants.ClaimTypes.Role, "admin");
-                        else user.Claims.RemoveClaim(Constants.ClaimTypes.Role, "admin");
+                        if (val) user.Claims.AddClaim(IdentityManagerConstants.ClaimTypes.Role, "admin");
+                        else user.Claims.RemoveClaim(IdentityManagerConstants.ClaimTypes.Role, "admin");
                     }
                     break;
                 case "gravatar":
@@ -292,12 +292,12 @@ namespace Host.InMemory
         {
             switch (type)
             {
-                case Constants.ClaimTypes.Username:
+                case IdentityManagerConstants.ClaimTypes.Username:
                     {
                         if (users.Any(x => x.Username == value)) return new[] { "That Username is already in use" };
                     }
                     break;
-                case Constants.ClaimTypes.Password:
+                case IdentityManagerConstants.ClaimTypes.Password:
                     {
                         if (value.Length < 3) return new[] { "Password must have at least 3 characters" };
                     }

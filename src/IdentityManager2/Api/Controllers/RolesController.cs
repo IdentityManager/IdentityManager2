@@ -13,8 +13,8 @@ using static System.String;
 
 namespace IdentityManager2.Api.Controllers
 {
-    [Route(Constants.RoleRoutePrefix)]
-    [Authorize(Constants.IdMgrAuthPolicy)]
+    [Route(IdentityManagerConstants.RoleRoutePrefix)]
+    [Authorize(IdentityManagerConstants.IdMgrAuthPolicy)]
     [ResponseCache(NoStore=true, Location=ResponseCacheLocation.None)]
     public class RolesController : Controller
     {
@@ -45,7 +45,7 @@ namespace IdentityManager2.Api.Controllers
         }
 
         // GET api/roles
-        [HttpGet, Route("", Name = Constants.RouteNames.GetRoles)]
+        [HttpGet, Route("", Name = IdentityManagerConstants.RouteNames.GetRoles)]
         public async Task<IActionResult> GetRolesAsync(string filter = null, int start = 0, int count = 100)
         {
             var meta = await GetMetadataAsync();
@@ -71,7 +71,7 @@ namespace IdentityManager2.Api.Controllers
         }
 
         // POST 
-        [HttpPost, Route("", Name = Constants.RouteNames.CreateRole)]
+        [HttpPost, Route("", Name = IdentityManagerConstants.RouteNames.CreateRole)]
         public async Task<IActionResult> CreateRoleAsync([FromBody]PropertyValue[] properties)
         {
             var meta = await GetMetadataAsync();
@@ -92,7 +92,7 @@ namespace IdentityManager2.Api.Controllers
                 var result = await service.CreateRoleAsync(properties);
                 if (result.IsSuccess)
                 {
-                    var url = Url.Link(Constants.RouteNames.GetRole, new { subject = result.Result.Subject });
+                    var url = Url.Link(IdentityManagerConstants.RouteNames.GetRole, new { subject = result.Result.Subject });
 
                     var resource = new
                     {
@@ -108,7 +108,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(ModelState.ToError());
         }
 
-        [HttpGet("{subject}", Name = Constants.RouteNames.GetRole)]
+        [HttpGet("{subject}", Name = IdentityManagerConstants.RouteNames.GetRole)]
         public async Task<IActionResult> GetRoleAsync(string subject)
         {
             if (IsNullOrWhiteSpace(subject))
@@ -145,7 +145,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        [HttpDelete, Route("{subject}", Name = Constants.RouteNames.DeleteRole)]
+        [HttpDelete, Route("{subject}", Name = IdentityManagerConstants.RouteNames.DeleteRole)]
         public async Task<IActionResult> DeleteRoleAsync(string subject)
         {
             var meta = await GetMetadataAsync();
@@ -168,7 +168,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        [HttpPut, Route("{subject}/properties/{type}", Name = Constants.RouteNames.UpdateRoleProperty)]
+        [HttpPut, Route("{subject}/properties/{type}", Name = IdentityManagerConstants.RouteNames.UpdateRoleProperty)]
         public async Task<IActionResult> SetPropertyAsync(string subject, string type)
         {
             if (IsNullOrWhiteSpace(subject))

@@ -45,12 +45,12 @@ namespace IdentityManager2.Api.Models
             {
                 var links = new Dictionary<string, string>
                 {
-                    { "detail", url.Link(Constants.RouteNames.GetRole, new { subject = role.Data.Subject }) }
+                    { "detail", url.Link(IdentityManagerConstants.RouteNames.GetRole, new { subject = role.Data.Subject }) }
                 };
 
                 if (meta.SupportsDelete)
                 {
-                    links.Add("delete", url.Link(Constants.RouteNames.DeleteRole, new { subject = role.Data.Subject }));
+                    links.Add("delete", url.Link(IdentityManagerConstants.RouteNames.DeleteRole, new { subject = role.Data.Subject }));
                 }
                 role.Links = links;
             }

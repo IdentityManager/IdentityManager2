@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace IdentityManager2.Core
+﻿namespace IdentityManager2
 {
-    public class Constants
+    public class IdentityManagerConstants
     {
         public const string LocalAuthenticationType = "idmgr.Local";
         public const string LocalApiScheme = "idmgr.api";

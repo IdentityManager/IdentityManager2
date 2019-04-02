@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IdentityManager2.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +20,9 @@ namespace IdentityManager2.Configuration
 
         public SecurityConfiguration()
         {
-            NameClaimType = Constants.ClaimTypes.Name;
-            RoleClaimType = Constants.ClaimTypes.Role;
-            AdminRoleName = Constants.AdminRoleName;
+            NameClaimType = IdentityManagerConstants.ClaimTypes.Name;
+            RoleClaimType = IdentityManagerConstants.ClaimTypes.Role;
+            AdminRoleName = IdentityManagerConstants.AdminRoleName;
 
             ShowLoginButton = true;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using IdentityManager2.Core;
+using IdentityManager2;
 
 namespace Host.InMemory
 {
@@ -18,10 +18,10 @@ namespace Host.InMemory
                     Email = "alice@email.com",
                     Mobile = "123",
                     Claims = new HashSet<Claim>{
-                        new Claim(Constants.ClaimTypes.Name, "Alice Smith"),
-                        new Claim(Constants.ClaimTypes.Role, "admin"),
-                        new Claim(Constants.ClaimTypes.Role, "employee"),
-                        new Claim(Constants.ClaimTypes.Role, "manager"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Name, "Alice Smith"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "admin"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "employee"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "manager"),
                         new Claim("department", "sales"),
                     }
                 },
@@ -31,9 +31,9 @@ namespace Host.InMemory
                     Password = "bob",
                     Email = "bob@email.com",
                     Claims = new HashSet<Claim>{
-                        new Claim(Constants.ClaimTypes.Name, "Bob Smith"),
-                        new Claim(Constants.ClaimTypes.Role, "employee"),
-                        new Claim(Constants.ClaimTypes.Role, "developer"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Name, "Bob Smith"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "employee"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "developer"),
                         new Claim("department", "IT"),
                     }
                 },
@@ -43,9 +43,9 @@ namespace Host.InMemory
                     Password = "test",
                     Email = "test@email.com",
                     Claims = new HashSet<Claim>{
-                        new Claim(Constants.ClaimTypes.Name, "Test"),
-                        new Claim(Constants.ClaimTypes.Role, "employee"),
-                        new Claim(Constants.ClaimTypes.Role, "developer"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Name, "Test"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "employee"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, "developer"),
                         new Claim("department", "IT"),
                     }
                 },
