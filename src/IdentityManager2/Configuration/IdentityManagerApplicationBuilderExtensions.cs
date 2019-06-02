@@ -8,6 +8,8 @@ namespace IdentityManager2.Configuration
     {
         public static IApplicationBuilder UseIdentityManager(this IApplicationBuilder app)
         {
+            app.UseAuthentication();
+
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString("/assets"),
