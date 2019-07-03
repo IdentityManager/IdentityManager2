@@ -45,20 +45,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.AddPolicy(IdentityManagerConstants.IdMgrAuthPolicy, config =>
                 {
                     config.RequireClaim(identityManagerOptions.SecurityConfiguration.RoleClaimType, identityManagerOptions.SecurityConfiguration.AdminRoleName);
-                    config.AddAuthenticationSchemes(IdentityManagerConstants.LocalApiScheme);
+                    // config.AddAuthenticationSchemes(IdentityManagerConstants.LocalApiScheme);
                 });
             });
 
-            services.AddAuthentication()
-                .AddCookie(IdentityManagerConstants.LocalApiScheme, options =>
-                {
-                    options.Cookie.SameSite = SameSiteMode.Strict;
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.IsEssential = true;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            // services.AddAuthentication()
+            //     .AddCookie(IdentityManagerConstants.LocalApiScheme, options =>
+            //     {
+            //         options.Cookie.SameSite = SameSiteMode.Strict;
+            //         options.Cookie.HttpOnly = true;
+            //         options.Cookie.IsEssential = true;
+            //         options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
-                    options.LoginPath = "/api/login";
-                });
+            //         options.LoginPath = "/api/login";
+            //     });
 
             identityManagerOptions.SecurityConfiguration.Configure(services);
             
