@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityManager2.Api.Controllers
 {
-    [Route("idm")]
     [SecurityHeaders]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class PageController : Controller
