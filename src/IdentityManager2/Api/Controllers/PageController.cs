@@ -20,7 +20,6 @@ namespace IdentityManager2.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(IdentityManagerConstants.IdMgrAuthPolicy)]
         [Route("", Name = IdentityManagerConstants.RouteNames.Home)]
         public IActionResult Index()
         {
@@ -30,12 +29,7 @@ namespace IdentityManager2.Api.Controllers
                 Model = JsonConvert.SerializeObject(new
                 {
                     PathBase = Request.PathBase,
-                    ShowLoginButton = config.SecurityConfiguration.ShowLoginButton,
-                    oauthSettings = new
-                    {
-                        authorization_endpoint = Request.PathBase + Constants.AuthorizePath,
-                        client_id = Constants.IdMgrClientId
-                    }
+                    ShowLoginButton = User.Identity.IsAuthenticated
                 })
             });
         }
@@ -60,7 +54,10 @@ namespace IdentityManager2.Api.Controllers
         [Route("logout", Name = IdentityManagerConstants.RouteNames.Logout)]
         public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(IdentityManagerConstants.LocalApiScheme);
+
             await config.SecurityConfiguration.SignOut(HttpContext);
+
             return RedirectToRoute(IdentityManagerConstants.RouteNames.Home, null);
         }
     }

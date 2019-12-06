@@ -59,4 +59,3 @@ namespace IdentityManager2.Assets
         }
     }
 }
-

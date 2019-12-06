@@ -24,11 +24,6 @@ namespace IdentityManager2.Api.Controllers
         {
             this.service = service ?? throw new ArgumentNullException(nameof(service));
         }
-        
-        public IActionResult MethodNotAllowed()
-        {
-            return StatusCode(405);
-        }
 
         private IdentityManagerMetadata metadata;
 
@@ -231,6 +226,11 @@ namespace IdentityManager2.Api.Controllers
                     ModelState.AddModelError("", error);
                 }
             }
+        }
+
+        private IActionResult MethodNotAllowed()
+        {
+            return StatusCode(405);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,11 +32,6 @@ namespace IdentityManager2.Api.Controllers
             this.actionContextAccessor = actionContextAccessor ?? throw new ArgumentNullException(nameof(actionContextAccessor));
         }
         
-        public IActionResult MethodNotAllowed()
-        {
-            return StatusCode(405);
-        }
-
         public async Task<IdentityManagerMetadata> GetMetadataAsync()
         {
             if (metadata == null)
@@ -350,6 +345,11 @@ namespace IdentityManager2.Api.Controllers
                     ModelState.AddModelError("", error);
                 }
             }
+        }
+
+        private IActionResult MethodNotAllowed()
+        {
+            return StatusCode(405);
         }
     }
 }

@@ -36,7 +36,7 @@
             $rootScope.layout.username = null;
             $rootScope.layout.links = null;
             $rootScope.layout.showLogout = ShowLoginButton; // TODO: logout button
-            $rootScope.layout.showLogin = false; // TODO: login button
+            $rootScope.layout.showLogin = ShowLoginButton; // TODO: login button
         }
 
         function load() {

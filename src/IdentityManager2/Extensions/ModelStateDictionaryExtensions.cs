@@ -42,5 +42,4 @@ namespace IdentityManager2.Extensions
             return errors.ToArray();
         }
     }
-
 }

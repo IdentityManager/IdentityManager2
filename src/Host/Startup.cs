@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Host.InMemory;
-using IdentityManager2.Configuration;
+using IdentityManager2.Assets;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
 
 namespace Host
 {
@@ -23,9 +25,24 @@ namespace Host
         {
             app.UseDeveloperExceptionPage();
 
-            app.UseIdentityManager();
+            app.UseRouting();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseFileServer(new FileServerOptions
+            {
+                RequestPath = new PathString("/assets"),
+                FileProvider = new EmbeddedFileProvider(typeof(EmbeddedHtmlResult).Assembly, "IdentityManager2.Assets")
+            });
+
+            app.UseEndpoints(x =>
+            {
+                //x.MapIdentityManager("/idm");
+                x.MapDefaultControllerRoute();
+            });
         }
     }
 }

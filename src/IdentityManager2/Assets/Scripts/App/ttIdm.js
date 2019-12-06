@@ -11,6 +11,9 @@
                     return config;
                 },
                 'responseError': function (response) {
+                    /*if (response.status === 401) {
+
+                    }*/
                     return $q.reject(response);
                 }
             };
