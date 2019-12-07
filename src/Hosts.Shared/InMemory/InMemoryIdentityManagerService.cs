@@ -8,7 +8,7 @@ using IdentityManager2.Core.Metadata;
 using IdentityManager2.Extensions;
 using IdentityManager2.Resources;
 
-namespace Host.InMemory
+namespace Hosts.Shared.InMemory
 {
     public class InMemoryIdentityManagerService : IIdentityManagerService
     {

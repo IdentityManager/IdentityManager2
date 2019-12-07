@@ -281,7 +281,7 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
 /// <reference path="../Libs/angular.min.js" />
 
 (function (angular) {
-    var app = angular.module("ttIdm", []);
+    const app = angular.module("ttIdm", []);
 
     function config($httpProvider) {
         function intercept($q, idmErrorService) {
@@ -297,15 +297,16 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
                     return $q.reject(response);
                 }
             };
-        };
+        }
+
         intercept.$inject = ["$q", "idmErrorService"];
         $httpProvider.interceptors.push(intercept);
-    };
+    }
     config.$inject = ["$httpProvider"];
     app.config(config);
 
     function idmErrorService($rootScope, $timeout) {
-        var svc = {
+        const svc = {
             show: function (err) {
                 $timeout(function () {
                     if (err instanceof Array) {
@@ -323,6 +324,7 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
 
         return svc;
     }
+
     idmErrorService.$inject = ["$rootScope", "$timeout"];
     app.factory("idmErrorService", idmErrorService);
 
@@ -343,10 +345,10 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
                 }, function (resp) {
                     cache = null;
                     if (resp.status === 401) {
-                        throw 'You are not authorized to use this service.';
+                        throw "You are not authorized to use this service.";
                     }
                     else {
-                        throw (resp.data && (resp.data.exceptionMessage || resp.data.message)) || 'Failed to access IdentityManager API.';
+                        throw resp.data && (resp.data.exceptionMessage || resp.data.message) || "Failed to access IdentityManager API.";
                     }
                 });
             }
@@ -359,17 +361,19 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
     function idmUsers($http, idmApi, $log) {
         function nop() {
         }
+
         function mapResponseData(response) {
             return response.data;
         }
+
         function errorHandler(msg) {
             msg = msg || "Unexpected Error";
-            return function (response) {
+            return function(response) {
                 if (response.data.exceptionMessage) {
                     $log.error(response.data.exceptionMessage);
                 }
-                throw (response.data.errors || response.data.message || msg);
-            }
+                throw response.data.errors || response.data.message || msg;
+            };
         }
 
         var svc = idmApi.get().then(function (api) {
@@ -410,6 +414,7 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
                 return $http.post(claims.links.create, claim)
                     .then(nop, errorHandler("Error Adding Claim"));
             };
+
             svc.removeClaim = function (claim) {
                 return $http.delete(claim.links.delete)
                     .then(nop, errorHandler("Error Removing Claim"));
@@ -434,17 +439,19 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
     function idmRoles($http, idmApi, $log) {
         function nop() {
         }
+
         function mapResponseData(response) {
             return response.data;
         }
+
         function errorHandler(msg) {
             msg = msg || "Unexpected Error";
-            return function (response) {
+            return function(response) {
                 if (response.data.exceptionMessage) {
                     $log.error(response.data.exceptionMessage);
                 }
-                throw (response.data.errors || response.data.message || msg);
-            }
+                throw response.data.errors || response.data.message || msg;
+            };
         }
 
         var svc = idmApi.get().then(function (api) {
@@ -462,9 +469,11 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
                 if (property.data === 0) {
                     property.data = "0";
                 }
+
                 if (property.data === false) {
                     property.data = "false";
                 }
+
                 return $http.put(property.links.update, property.data)
                     .then(nop, errorHandler(property.meta && property.meta.name && "Error Setting " + property.meta.name || "Error Setting Property"));
             };
@@ -491,7 +500,7 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
 (function (angular) {
     var model = document.getElementById("model").textContent.trim();
     model = JSON.parse(model);
-    for (var key in model) {
+    for (let key in model) {
         angular.module("ttIdm").constant(key, model[key]);
     }
 })(angular);
@@ -1107,26 +1116,18 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
 /// <reference path="../Libs/angular-route.min.js" />
 
 (function (angular) {
-
-    var app = angular.module("ttIdmApp", ['ngRoute', 'ttIdm', 'ttIdmUI', 'ttIdmUsers', 'ttIdmRoles']);
+    const app = angular.module("ttIdmApp", ["ngRoute", "ttIdm", "ttIdmUI", "ttIdmUsers", "ttIdmRoles"]);
     function config(PathBase, $routeProvider) {
         $routeProvider
             .when("/", {
-                controller: 'HomeCtrl',
-                templateUrl: PathBase + '/assets/Templates.home.html'
-            })
-            .when("/logout", {
-                templateUrl: PathBase + '/assets/Templates.home.html'
-            })
-            .when("/callback/:response", {
-                templateUrl: PathBase + '/assets/Templates.message.html',
-                controller: 'CallbackCtrl'
+                controller: "HomeCtrl",
+                templateUrl: PathBase + "/assets/Templates.home.html"
             })
             .when("/error", {
-                templateUrl: PathBase + '/assets/Templates.message.html'
+                templateUrl: PathBase + "/assets/Templates.message.html"
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: "/"
             });
     }
     config.$inject = ["PathBase", "$routeProvider"];
@@ -1140,31 +1141,36 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
             idmErrorService.clear();
             $rootScope.layout.username = null;
             $rootScope.layout.links = null;
-            $rootScope.layout.showLogout = ShowLoginButton; // TODO: logout button
-            $rootScope.layout.showLogin = ShowLoginButton; // TODO: login button
+            $rootScope.layout.showLogout = !ShowLoginButton;
+            $rootScope.layout.showLogin = ShowLoginButton;
         }
 
         function load() {
             removed();
 
-            idmApi.get().then(function (api) {
-                $rootScope.layout.username = api.data.currentUser.username; // TODO: username
-                $rootScope.layout.links = api.links;
-            }, function (err) {
-                idmErrorService.show(err);
-            });
+            if (ShowLoginButton === false) {
+                idmApi.get().then(function (api) {
+                    $rootScope.layout.username = api.data.currentUser.username;
+                    $rootScope.layout.links = api.links;
+                }, function (err) {
+                    idmErrorService.show(err);
+                });
+            }
         }
 
         load();
 
-        $rootScope.logout = function () {
+        $rootScope.login = function () {
             idmErrorService.clear();
-            // TODO: logout functionality
-            $location.path("/logout");
-            if (ShowLoginButton !== false) {
-                $window.location = PathBase + "/logout";
-            }
-        }
+
+            $window.location = PathBase + "/api/login";
+        };
+
+        $rootScope.logout = function() {
+            idmErrorService.clear();
+
+            $window.location = PathBase + "/api/logout";
+        };
     }
     LayoutCtrl.$inject = ["$rootScope", "PathBase", "idmApi", "$location", "$window", "idmErrorService", "ShowLoginButton"];
     app.controller("LayoutCtrl", LayoutCtrl);
@@ -1172,16 +1178,9 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
     function HomeCtrl(ShowLoginButton, $routeParams) {
         if (ShowLoginButton === false) { // TODO: Cleanup
         }
-    }
+    };
+
     HomeCtrl.$inject = ["ShowLoginButton", "$routeParams"];
     app.controller("HomeCtrl", HomeCtrl);
 
-    function CallbackCtrl($location, $rootScope, $routeParams, idmErrorService) {
-        var hash = $routeParams.response;
-        if (hash.charAt(0) === "&") {
-            hash = hash.substr(1);
-        }
-    }
-    CallbackCtrl.$inject = ["$location", "$rootScope", "$routeParams", "idmErrorService"];
-    app.controller("CallbackCtrl", CallbackCtrl);
 })(angular);

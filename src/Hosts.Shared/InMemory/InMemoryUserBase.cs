@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace Host.InMemory
+namespace Hosts.Shared.InMemory
 {
     public class InMemoryUserBase
     {

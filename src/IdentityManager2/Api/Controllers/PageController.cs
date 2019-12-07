@@ -5,6 +5,7 @@ using IdentityManager2.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace IdentityManager2.Api.Controllers
@@ -14,9 +15,9 @@ namespace IdentityManager2.Api.Controllers
     public class PageController : Controller
     {
         private readonly IdentityManagerOptions config;
-        public PageController(IdentityManagerOptions config)
+        public PageController(IOptions<IdentityManagerOptions> config)
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.config = config?.Value ?? throw new ArgumentNullException(nameof(config));
         }
 
         [HttpGet]
@@ -39,21 +40,21 @@ namespace IdentityManager2.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("api/login", Name = IdentityManagerConstants.RouteNames.Login)]
-        public async Task<IActionResult> Login(string returnUrl)
+        public async Task<IActionResult> Login()
         {
             var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
             if (authResult.Succeeded)
             {
                 await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, authResult.Principal);
-                return Redirect(returnUrl);
+                return RedirectToAction("Index");
             }
 
-            return Challenge(config.SecurityConfiguration.HostChallengeType);
+            return Challenge(new AuthenticationProperties {RedirectUri = Url.Action("Login")}, config.SecurityConfiguration.HostChallengeType);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("logout", Name = IdentityManagerConstants.RouteNames.Logout)]
+        [Route("api/logout", Name = IdentityManagerConstants.RouteNames.Logout)]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(IdentityManagerConstants.LocalApiScheme);

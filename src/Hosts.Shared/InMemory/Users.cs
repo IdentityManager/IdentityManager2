@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityManager2;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Host.InMemory
+namespace Hosts.Shared.InMemory
 {
     public class Users
     {
@@ -22,6 +23,7 @@ namespace Host.InMemory
                         new Claim(IdentityManagerConstants.ClaimTypes.Role, "admin"),
                         new Claim(IdentityManagerConstants.ClaimTypes.Role, "employee"),
                         new Claim(IdentityManagerConstants.ClaimTypes.Role, "manager"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, IdentityManagerConstants.AdminRoleName),
                         new Claim("department", "sales"),
                     }
                 },
@@ -34,6 +36,7 @@ namespace Host.InMemory
                         new Claim(IdentityManagerConstants.ClaimTypes.Name, "Bob Smith"),
                         new Claim(IdentityManagerConstants.ClaimTypes.Role, "employee"),
                         new Claim(IdentityManagerConstants.ClaimTypes.Role, "developer"),
+                        new Claim(IdentityManagerConstants.ClaimTypes.Role, IdentityManagerConstants.AdminRoleName),
                         new Claim("department", "IT"),
                     }
                 },
@@ -55,7 +58,8 @@ namespace Host.InMemory
             {
                 var user = new InMemoryUser
                 {
-                    Username = GenName().ToLower()
+                    Username = GenName().ToLower(),
+                    Password = GenName().ToLower()
                 };
                 user.Claims.Add(new Claim("name", GenName() + " " + GenName()));
                 users.Add(user);
@@ -66,15 +70,15 @@ namespace Host.InMemory
 
         private static string GenName()
         {
-            var firstChar = (char)(rnd.Next(26) + 65);
+            var firstChar = (char)(Random.Next(26) + 65);
             var username = firstChar.ToString();
             for (var j = 0; j < 6; j++)
             {
-                username += Char.ToLower((char)(rnd.Next(26) + 65));
+                username += Char.ToLower((char)(Random.Next(26) + 65));
             }
             return username;
         }
 
-        static Random rnd = new Random();
+        private static readonly Random Random = new Random();
     }
 }

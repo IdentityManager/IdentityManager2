@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using IdentityManager2;
 using IdentityManager2.Configuration;
 using Microsoft.AspNetCore.Http;
@@ -12,64 +13,71 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class IdentityManagerServiceCollectionExtensions
     {
-        public static IIdentityManagerBuilder AddIdentityManager(this IServiceCollection services, Action<IdentityManagerOptions> setupAction)
+        public static IIdentityManagerBuilder AddIdentityManager(this IServiceCollection services, Action<IdentityManagerOptions> optionsAction = null)
         {
-            services.Configure(setupAction);
-            return services.AddIdentityManager();
-        }
+            services.Configure(optionsAction ?? (options => { }));
 
-        public static IIdentityManagerBuilder AddIdentityManager(this IServiceCollection services)
-        {
             var identityManagerOptions = services.BuildServiceProvider().GetRequiredService<IOptions<IdentityManagerOptions>>().Value;
             identityManagerOptions.Validate();
-
-            var builder = services.AddIdentityManagerBuilder();
-
-            builder.Services.AddControllersWithViews()
+            
+            services.AddControllersWithViews()
                 .AddNewtonsoftJson();
-
-            builder.Services.AddOptions();
-            builder.Services.AddSingleton(identityManagerOptions);
-
-            builder.Services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.TryAddSingleton<IUrlHelper>(x =>
+            
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<IUrlHelper>(x =>
             {
                 var actionContext = x.GetService<IActionContextAccessor>().ActionContext;
                 return new UrlHelper(actionContext);
             });
             
-            builder.Services.AddAuthorization(options =>
+            // IdentityManager API authentication scheme
+            services.AddAuthentication()
+                .AddCookie(IdentityManagerConstants.LocalApiScheme, options =>
+                {
+                    options.Cookie.Name = IdentityManagerConstants.LocalApiScheme;
+                    options.Cookie.SameSite = SameSiteMode.Strict;
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+                    // TODO: API Cookie: SlidingExpiration
+                    // TODO: API Cookie: ExpireTimeSpan
+
+                    //options.ForwardChallenge = identityManagerOptions.SecurityConfiguration.HostChallengeType;
+                    options.LoginPath = "/api/login";
+
+                    options.Events.OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                    options.Events.OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = 403;
+                        return Task.CompletedTask;
+                    };
+                });
+
+            // IdentityManager API authorization scheme
+            services.AddAuthorization(options =>
             {
                 var policy = options.GetPolicy(IdentityManagerConstants.IdMgrAuthPolicy);
                 if (policy != null) throw new InvalidOperationException($"Authorization policy with name {IdentityManagerConstants.IdMgrAuthPolicy} already exists");
 
                 options.AddPolicy(IdentityManagerConstants.IdMgrAuthPolicy, config =>
                 {
+                    // IdentityManager role
                     config.RequireClaim(identityManagerOptions.SecurityConfiguration.RoleClaimType, identityManagerOptions.SecurityConfiguration.AdminRoleName);
 
-                    if (!string.IsNullOrEmpty(identityManagerOptions.SecurityConfiguration.AuthenticationScheme))
-                        config.AddAuthenticationSchemes(identityManagerOptions.SecurityConfiguration.AuthenticationScheme);
+                    // IdentityManager authentication scheme
+                    config.AddAuthenticationSchemes(IdentityManagerConstants.LocalApiScheme);
                 });
             });
 
-            if (!string.IsNullOrEmpty(identityManagerOptions.SecurityConfiguration.AuthenticationScheme))
-            {
-                services.AddAuthentication()
-                    .AddCookie(identityManagerOptions.SecurityConfiguration.AuthenticationScheme, options =>
-                    {
-                        options.Cookie.SameSite = SameSiteMode.Strict;
-                        options.Cookie.HttpOnly = true;
-                        options.Cookie.IsEssential = true;
-                        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-
-                        options.LoginPath = "/api/login";
-                    });
-            }
-
             identityManagerOptions.SecurityConfiguration.Configure(services);
-            
-            return builder;
+
+            return new IdentityManagerBuilder(services);
         }
 
         public static IIdentityManagerBuilder AddIdentityMangerService<T>(this IIdentityManagerBuilder builder)

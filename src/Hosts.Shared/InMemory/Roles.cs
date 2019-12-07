@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Host.InMemory
+namespace Hosts.Shared.InMemory
 {
     public class Roles
     {

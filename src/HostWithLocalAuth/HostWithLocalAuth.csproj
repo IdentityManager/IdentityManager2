@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -8,4 +8,5 @@
     <ProjectReference Include="..\Hosts.Shared\Hosts.Shared.csproj" />
     <ProjectReference Include="..\IdentityManager2\IdentityManager2.csproj" />
   </ItemGroup>
+
 </Project>

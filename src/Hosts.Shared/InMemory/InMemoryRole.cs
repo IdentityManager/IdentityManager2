@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Host.InMemory
+namespace Hosts.Shared.InMemory
 {
     public class InMemoryRole
     {
