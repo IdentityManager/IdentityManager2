@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Description>IdentityManager is an user management tool for ASP.NET Core Identity. Maintained by Rock Solid Knowledge.</Description>
+    <Description>IdentityManager is an user management tool for ASP.NET Core. Maintained by Rock Solid Knowledge.</Description>
     <VersionPrefix>1.0.0</VersionPrefix>
-    <VersionSuffix>beta5</VersionSuffix>
+    <VersionSuffix>beta6</VersionSuffix>
     <Authors>Scott Brady</Authors>
     <AssemblyName>IdentityManager2</AssemblyName>
     <PackageId>IdentityManager2</PackageId>
@@ -24,21 +24,7 @@
 
     <EmbeddedResource Include="Assets\Scripts\Bundle.js" />
 
-    <EmbeddedResource Include="Assets\Templates\home.html" />
-    <EmbeddedResource Include="Assets\Templates\users\edit.html" />
-    <EmbeddedResource Include="Assets\Templates\users\list.html" />
-    <EmbeddedResource Include="Assets\Templates\users\new.html" />
-    <EmbeddedResource Include="Assets\Templates\users\accessdenied.html" />
-    <EmbeddedResource Include="Assets\Templates\roles\new.html" />
-    <EmbeddedResource Include="Assets\Templates\roles\list.html" />
-    <EmbeddedResource Include="Assets\Templates\roles\edit.html" />
-    <EmbeddedResource Include="Assets\Templates\editor\property.html" />
-    <EmbeddedResource Include="Assets\Templates\pager\buttons.html" />
-    <EmbeddedResource Include="Assets\Templates\pager\summary.html" />
-    <EmbeddedResource Include="Assets\Templates\modal.html" />
-    <EmbeddedResource Include="Assets\Templates\message.html" />
-    <EmbeddedResource Include="Assets\Templates\navbar.html" />
-    <EmbeddedResource Include="Assets\Templates\footer.html" />
+    <EmbeddedResource Include="Assets\Templates\**" />
 
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.svg" />
     <EmbeddedResource Include="Assets\Content\fonts\glyphicons-halflings-regular.eot" />
@@ -53,7 +39,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.0" />
   </ItemGroup>
