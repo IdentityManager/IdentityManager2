@@ -25,7 +25,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var builder = services.AddIdentityManagerBuilder();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                .AddNewtonsoftJson();
 
             builder.Services.AddOptions();
             builder.Services.AddSingleton(identityManagerOptions);

@@ -21,15 +21,17 @@ namespace IdentityManager2.Api.Controllers
 
         [HttpGet]
         [Route("", Name = IdentityManagerConstants.RouteNames.Home)]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+
             return View("/Areas/IdentityManager/Pages/Index.cshtml", new PageModel
             {
                 PathBase = Request.PathBase,
                 Model = JsonConvert.SerializeObject(new
                 {
                     PathBase = Request.PathBase,
-                    ShowLoginButton = User.Identity.IsAuthenticated
+                    ShowLoginButton = !authResult.Succeeded
                 })
             });
         }
@@ -39,10 +41,10 @@ namespace IdentityManager2.Api.Controllers
         [Route("api/login", Name = IdentityManagerConstants.RouteNames.Login)]
         public async Task<IActionResult> Login(string returnUrl)
         {
-            var result = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
-            if (result.Succeeded)
+            var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+            if (authResult.Succeeded)
             {
-                await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, result.Principal);
+                await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, authResult.Principal);
                 return Redirect(returnUrl);
             }
 
