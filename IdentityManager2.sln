@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hosts.Shared", "src\Hosts\H
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{59FA21EB-3472-4E3D-BDF0-AD32DCFA6035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosts.IdentityServerAuthentication", "src\Hosts\Host.IdentityServerAuthentication\Hosts.IdentityServerAuthentication.csproj", "{BAACD397-A69F-4F9B-A178-39D734CA78CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosts.IdentityServerAuthentication", "src\Hosts\Hosts.IdentityServerAuthentication\Hosts.IdentityServerAuthentication.csproj", "{BAACD397-A69F-4F9B-A178-39D734CA78CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
