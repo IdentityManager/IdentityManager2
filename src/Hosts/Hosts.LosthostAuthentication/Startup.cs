@@ -2,9 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Hosts.Shared.InMemory;
-using IdentityManager2.Assets;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileProviders;
 
 namespace Hosts.LosthostAuthentication
 {
@@ -32,15 +29,10 @@ namespace Hosts.LosthostAuthentication
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseFileServer(new FileServerOptions
-            {
-                RequestPath = new PathString("/assets"),
-                FileProvider = new EmbeddedFileProvider(typeof(EmbeddedHtmlResult).Assembly, "IdentityManager2.Assets")
-            });
+            app.UseIdentityManager();
 
             app.UseEndpoints(x =>
             {
-                //x.MapIdentityManager("/idm");
                 x.MapDefaultControllerRoute();
             });
         }

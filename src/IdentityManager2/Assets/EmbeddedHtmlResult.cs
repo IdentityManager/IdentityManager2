@@ -7,8 +7,7 @@ using Newtonsoft.Json;
 
 namespace IdentityManager2.Assets
 {
-    // TODO: internal
-    public class EmbeddedHtmlResult : IActionResult
+    internal class EmbeddedHtmlResult : IActionResult
     {
         private readonly string path;
         private readonly string file;
