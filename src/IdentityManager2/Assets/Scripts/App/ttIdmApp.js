@@ -6,7 +6,6 @@
     function config(PathBase, $routeProvider) {
         $routeProvider
             .when("/", {
-                controller: "HomeCtrl",
                 templateUrl: PathBase + "/assets/Templates.home.html"
             })
             .when("/error", {
@@ -24,6 +23,8 @@
         $rootScope.layout = {};
 
         function removed() {
+            
+
             idmErrorService.clear();
             $rootScope.layout.username = null;
             $rootScope.layout.links = null;
@@ -60,13 +61,4 @@
     }
     LayoutCtrl.$inject = ["$rootScope", "PathBase", "idmApi", "$location", "$window", "idmErrorService", "ShowLoginButton"];
     app.controller("LayoutCtrl", LayoutCtrl);
-
-    function HomeCtrl(ShowLoginButton, $routeParams) {
-        if (ShowLoginButton === false) { // TODO: Cleanup
-        }
-    };
-
-    HomeCtrl.$inject = ["ShowLoginButton", "$routeParams"];
-    app.controller("HomeCtrl", HomeCtrl);
-
 })(angular);

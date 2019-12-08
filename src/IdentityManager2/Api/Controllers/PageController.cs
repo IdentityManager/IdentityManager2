@@ -54,6 +54,21 @@ namespace IdentityManager2.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("api/login/refresh")]
+        public async Task<IActionResult> Refresh()
+        {
+            var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+            if (authResult.Succeeded)
+            {
+                await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, authResult.Principal);
+                return Ok();
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         [Route("api/logout", Name = IdentityManagerConstants.RouteNames.Logout)]
         public async Task<IActionResult> Logout()
         {

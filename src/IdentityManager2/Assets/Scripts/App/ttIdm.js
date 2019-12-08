@@ -2,24 +2,62 @@
 
 (function (angular) {
     const app = angular.module("ttIdm", []);
-
+    
     function config($httpProvider) {
-        function intercept($q, idmErrorService) {
+        function intercept($q, $injector, idmErrorService, PathBase, $rootScope) {
+            var inprogressRefreshRequest = null;
+
             return {
-                'request': function (config) {
+                'request': function(config) {
                     idmErrorService.clear();
                     return config;
                 },
-                'responseError': function (response) {
-                    /*if (response.status === 401) {
+                'responseError': function(response) {
+                    if (response.config.url === PathBase + "/api/login/refresh") {
+                        return $q.reject(response);
+                    }
 
-                    }*/
-                    return $q.reject(response);
+                    switch (response.status) {
+                    case 401:
+                        var deferred = $q.defer();
+
+                        if (!inprogressRefreshRequest) {
+                            inprogressRefreshRequest = $injector.get("$http").get(PathBase + "/api/login/refresh");
+                        }
+
+                        inprogressRefreshRequest.then(
+                            function() {
+                                inprogressRefreshRequest = null;
+
+                                $injector.get("$http")(response.config).then(
+                                    function(retryResponse) {
+                                        deferred.resolve(retryResponse);
+                                    },
+                                    function(retryResponse) {
+                                        deferred.reject(retryResponse);
+                                    });
+                            },
+                            function () {
+                                inprogressRefreshRequest = null;
+                                response.data = { message: "Session has expired" };
+
+                                $rootScope.layout.username = null;
+                                $rootScope.layout.links = null;
+                                $rootScope.showLogin = true;
+                                $rootScope.showLogout = false;
+
+                                return deferred.reject(response);
+                            });
+
+                        return deferred.promise;
+                    default:
+                        return $q.reject(response);
+                    }
                 }
             };
         }
 
-        intercept.$inject = ["$q", "idmErrorService"];
+        intercept.$inject = ["$q", "$injector", "idmErrorService", "PathBase", "$rootScope"];
         $httpProvider.interceptors.push(intercept);
     }
     config.$inject = ["$httpProvider"];
@@ -59,18 +97,19 @@
                     return d.promise;
                 }
 
-                return $http.get(PathBase + "/api").then(function (resp) {
-                    cache = resp.data;
-                    return cache;
-                }, function (resp) {
-                    cache = null;
-                    if (resp.status === 401) {
-                        throw "You are not authorized to use this service.";
-                    }
-                    else {
-                        throw resp.data && (resp.data.exceptionMessage || resp.data.message) || "Failed to access IdentityManager API.";
-                    }
-                });
+                return $http.get(PathBase + "/api").then(function(resp) {
+                        cache = resp.data;
+                        return cache;
+                    },
+                    function(resp) {
+                        cache = null;
+                        if (resp.status === 403) {
+                            throw "You are not authorized to use this service.";
+                        } else {
+                            throw resp.data && (resp.data.exceptionMessage || resp.data.message) ||
+                                "Failed to access IdentityManager API.";
+                        }
+                    });
             }
         };
     }
@@ -88,7 +127,7 @@
 
         function errorHandler(msg) {
             msg = msg || "Unexpected Error";
-            return function(response) {
+            return function (response) {
                 if (response.data.exceptionMessage) {
                     $log.error(response.data.exceptionMessage);
                 }
