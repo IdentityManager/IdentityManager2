@@ -9,8 +9,6 @@ using IdentityManager2.Extensions;
 using IdentityManager2.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 using static System.String;
 
 namespace IdentityManager2.Api.Controllers
@@ -21,15 +19,11 @@ namespace IdentityManager2.Api.Controllers
     public class UsersController : Controller
     {
         private readonly IIdentityManagerService service;
-        private readonly IUrlHelperFactory urlHelperFactory;
-        private readonly IActionContextAccessor actionContextAccessor;
         private IdentityManagerMetadata metadata;
 
-        public UsersController(IIdentityManagerService service, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
+        public UsersController(IIdentityManagerService service)
         {
             this.service = service ?? throw new ArgumentNullException(nameof(service));
-            this.urlHelperFactory = urlHelperFactory ?? throw new ArgumentNullException(nameof(urlHelperFactory));
-            this.actionContextAccessor = actionContextAccessor ?? throw new ArgumentNullException(nameof(actionContextAccessor));
         }
         
         public async Task<IdentityManagerMetadata> GetMetadataAsync()
@@ -52,9 +46,7 @@ namespace IdentityManager2.Api.Controllers
             {
                 var meta = await GetMetadataAsync();
 
-                var resource = new UserQueryResultResource(result.Result,
-                    urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext),
-                    meta.UserMetadata);
+                var resource = new UserQueryResultResource(result.Result, Url, meta.UserMetadata);
                 return Ok(resource);
             }
 
@@ -82,13 +74,11 @@ namespace IdentityManager2.Api.Controllers
                 var result = await service.CreateUserAsync(properties);
                 if (result.IsSuccess)
                 {
-                    var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
-
-                    var url = urlHelper.Link(IdentityManagerConstants.RouteNames.GetUser, new { subject = result.Result.Subject });
+                    var url = Url.Link(IdentityManagerConstants.RouteNames.GetUser, new {subject = result.Result.Subject});
                     var resource = new
                     {
-                        Data = new { subject = result.Result.Subject },
-                        Links = new { detail = url }
+                        Data = new {subject = result.Result.Subject},
+                        Links = new {detail = url}
                     };
 
                     return Created(url, resource);

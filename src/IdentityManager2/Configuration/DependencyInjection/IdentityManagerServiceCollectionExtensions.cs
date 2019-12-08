@@ -3,10 +3,6 @@ using System.Threading.Tasks;
 using IdentityManager2;
 using IdentityManager2.Configuration;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -19,17 +15,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var identityManagerOptions = services.BuildServiceProvider().GetRequiredService<IOptions<IdentityManagerOptions>>().Value;
             identityManagerOptions.Validate();
-            
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson();
-            
-            services.AddHttpContextAccessor();
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            services.TryAddSingleton<IUrlHelper>(x =>
-            {
-                var actionContext = x.GetService<IActionContextAccessor>().ActionContext;
-                return new UrlHelper(actionContext);
-            });
             
             // IdentityManager API authentication scheme
             services.AddAuthentication()
@@ -44,7 +32,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     // TODO: API Cookie: SlidingExpiration
                     // TODO: API Cookie: ExpireTimeSpan
 
-                    //options.ForwardChallenge = identityManagerOptions.SecurityConfiguration.HostChallengeType;
                     options.LoginPath = "/api/login";
 
                     options.Events.OnRedirectToLogin = context =>
