@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 
-namespace HostWithLocalAuth
+namespace Hosts.CookieAuthentication
 {
     public class Startup
     {

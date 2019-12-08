@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hosts.Shared\Hosts.Shared.csproj" />
-    <ProjectReference Include="..\IdentityManager2\IdentityManager2.csproj" />
   </ItemGroup>
+
 </Project>

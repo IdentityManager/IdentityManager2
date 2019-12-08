@@ -8,7 +8,7 @@ using IdentityManager2;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HostWithLocalAuth
+namespace Hosts.CookieAuthentication
 {
     public class LoginController : Controller
     {

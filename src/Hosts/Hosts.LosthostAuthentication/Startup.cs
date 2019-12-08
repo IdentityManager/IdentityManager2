@@ -6,7 +6,7 @@ using IdentityManager2.Assets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 
-namespace Host
+namespace Hosts.LosthostAuthentication
 {
     public class Startup
     {

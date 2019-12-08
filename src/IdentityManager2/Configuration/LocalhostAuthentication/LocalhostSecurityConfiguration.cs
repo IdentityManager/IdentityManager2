@@ -16,7 +16,7 @@ namespace IdentityManager2.Configuration
         {
             services.AddAuthentication()
                 .AddScheme<LocalhostAuthenticationOptions, LocalhostAuthenticationHandler>(
-                    "local", opt => { });
+                    IdentityManagerConstants.LocalAuthenticationType, opt => { });
 
             base.Configure(services);
         }
