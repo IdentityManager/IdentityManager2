@@ -4,15 +4,23 @@
             <img ng-src="{{PathBase}}/assets/Content.logo.png" class="logo-banner">
             IdentityManager 2
         </a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
     </div>
-    <ul class="nav navbar-nav">
-        <li ng-show="layout.links.users"><a href="#/users/list">All Users</a></li>
-        <li ng-show="layout.links.createUser"><a href="#/users/create">New User</a></li>
-        <li ng-show="layout.links.roles"><a href="#/roles/list">All Roles</a></li>
-        <li ng-show="layout.links.createRole"><a href="#/roles/create">New Role</a></li>
-        <li ng-show="layout.showLogin"><a href="#/" ng-click="login()" idm-prevent-default>Login</a></li>
-        <li ng-show="layout.showLogout"><a href="#/" ng-click="logout()" idm-prevent-default>Logout</a></li>
-    </ul>
+    <div class="collapse navbar-collapse" id="nav">
+        <ul class="nav navbar-nav">
+            <li data-toggle="collapse" data-target="#nav" ng-show="layout.links.users"><a href="#/users/list">All Users</a></li>
+            <li data-toggle="collapse" data-target="#nav" ng-show="layout.links.createUser"><a href="#/users/create">New User</a></li>
+            <li data-toggle="collapse" data-target="#nav" ng-show="layout.links.roles"><a href="#/roles/list">All Roles</a></li>
+            <li data-toggle="collapse" data-target="#nav" ng-show="layout.links.createRole"><a href="#/roles/create">New Role</a></li>
+            <li data-toggle="collapse" data-target="#nav" ng-show="layout.showLogin"><a href="#/" ng-click="login()" idm-prevent-default>Login</a></li>
+            <li data-toggle="collapse" data-target="#nav" ng-show="layout.showLogout"><a href="#/" ng-click="logout()" idm-prevent-default>Logout</a></li>
+        </ul>
 
-    <span class="navbar-text pull-right">{{layout.username}}</span>
+        <span class="navbar-text pull-right">{{layout.username}}</span>
+    </div>
 </div>
