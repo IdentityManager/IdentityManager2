@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IdentityManager2.Assets;
+using IdentityManager2.Api.Models;
 using IdentityManager2.Configuration;
-using IdentityManager2.Core;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace IdentityManager2.Api.Controllers
 {
@@ -13,29 +15,68 @@ namespace IdentityManager2.Api.Controllers
     public class PageController : Controller
     {
         private readonly IdentityManagerOptions config;
-        public PageController(IdentityManagerOptions config)
+        public PageController(IOptions<IdentityManagerOptions> config)
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.config = config?.Value ?? throw new ArgumentNullException(nameof(config));
+        }
+
+        [HttpGet]
+        [Route("", Name = IdentityManagerConstants.RouteNames.Home)]
+        public async Task<IActionResult> Index()
+        {
+            var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+
+            return View("/Areas/IdentityManager/Pages/Index.cshtml", new PageModel
+            {
+                PathBase = Request.PathBase,
+                Model = JsonConvert.SerializeObject(new
+                {
+                    PathBase = Request.PathBase,
+                    ShowLoginButton = !authResult.Succeeded
+                })
+            });
         }
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("", Name = Constants.RouteNames.Home)]
-        public IActionResult Index()
+        [Route("api/login", Name = IdentityManagerConstants.RouteNames.Login)]
+        public async Task<IActionResult> Login()
         {
-            return new EmbeddedHtmlResult(
-                Request.PathBase, 
-                "IdentityManager2.Assets.Templates.index.html",
-                config.SecurityConfiguration);
+            var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+            if (authResult.Succeeded)
+            {
+                await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, authResult.Principal);
+                return RedirectToAction("Index");
+            }
+
+            return Challenge(new AuthenticationProperties {RedirectUri = Url.Action("Login")}, config.SecurityConfiguration.HostChallengeType);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("logout", Name = Constants.RouteNames.Logout)]
+        [Route("api/login/refresh")]
+        public async Task<IActionResult> Refresh()
+        {
+            var authResult = await HttpContext.AuthenticateAsync(config.SecurityConfiguration.HostAuthenticationType);
+            if (authResult.Succeeded)
+            {
+                await HttpContext.SignInAsync(IdentityManagerConstants.LocalApiScheme, authResult.Principal);
+                return Ok();
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/logout", Name = IdentityManagerConstants.RouteNames.Logout)]
         public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(IdentityManagerConstants.LocalApiScheme);
+
             await config.SecurityConfiguration.SignOut(HttpContext);
-            return RedirectToRoute(Constants.RouteNames.Home, null);
+
+            return RedirectToRoute(IdentityManagerConstants.RouteNames.Home, null);
         }
     }
 }

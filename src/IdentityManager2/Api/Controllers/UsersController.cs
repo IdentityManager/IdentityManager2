@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,34 +9,23 @@ using IdentityManager2.Extensions;
 using IdentityManager2.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 using static System.String;
 
 namespace IdentityManager2.Api.Controllers
 {
-    [Route(Constants.UserRoutePrefix)]
-    [Authorize(Constants.IdMgrAuthPolicy)]
+    [Route(IdentityManagerConstants.UserRoutePrefix)]
+    [Authorize(IdentityManagerConstants.IdMgrAuthPolicy)]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class UsersController : Controller
     {
         private readonly IIdentityManagerService service;
-        private readonly IUrlHelperFactory urlHelperFactory;
-        private readonly IActionContextAccessor actionContextAccessor;
         private IdentityManagerMetadata metadata;
 
-        public UsersController(IIdentityManagerService service, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
+        public UsersController(IIdentityManagerService service)
         {
             this.service = service ?? throw new ArgumentNullException(nameof(service));
-            this.urlHelperFactory = urlHelperFactory ?? throw new ArgumentNullException(nameof(urlHelperFactory));
-            this.actionContextAccessor = actionContextAccessor ?? throw new ArgumentNullException(nameof(actionContextAccessor));
         }
         
-        public IActionResult MethodNotAllowed()
-        {
-            return StatusCode(405);
-        }
-
         public async Task<IdentityManagerMetadata> GetMetadataAsync()
         {
             if (metadata == null)
@@ -49,7 +38,7 @@ namespace IdentityManager2.Api.Controllers
             return metadata;
         }
 
-        [HttpGet, Route("", Name = Constants.RouteNames.GetUsers)]
+        [HttpGet, Route("", Name = IdentityManagerConstants.RouteNames.GetUsers)]
         public async Task<IActionResult> GetUsersAsync(string filter = null, int start = 0, int count = 100)
         {
             var result = await service.QueryUsersAsync(filter, start, count);
@@ -57,16 +46,14 @@ namespace IdentityManager2.Api.Controllers
             {
                 var meta = await GetMetadataAsync();
 
-                var resource = new UserQueryResultResource(result.Result,
-                    urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext),
-                    meta.UserMetadata);
+                var resource = new UserQueryResultResource(result.Result, Url, meta.UserMetadata);
                 return Ok(resource);
             }
 
             return BadRequest(result.ToError());
         }
 
-        [HttpPost("", Name = Constants.RouteNames.CreateUser)]
+        [HttpPost("", Name = IdentityManagerConstants.RouteNames.CreateUser)]
         public async Task<IActionResult> CreateUserAsync([FromBody] PropertyValue[] properties)
         {
             var meta = await GetMetadataAsync();
@@ -87,13 +74,11 @@ namespace IdentityManager2.Api.Controllers
                 var result = await service.CreateUserAsync(properties);
                 if (result.IsSuccess)
                 {
-                    var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
-
-                    var url = urlHelper.Link(Constants.RouteNames.GetUser, new { subject = result.Result.Subject });
+                    var url = Url.Link(IdentityManagerConstants.RouteNames.GetUser, new {subject = result.Result.Subject});
                     var resource = new
                     {
-                        Data = new { subject = result.Result.Subject },
-                        Links = new { detail = url }
+                        Data = new {subject = result.Result.Subject},
+                        Links = new {detail = url}
                     };
 
                     return Created(url, resource);
@@ -105,7 +90,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(400);
         }
 
-        [HttpGet("{subject}", Name = Constants.RouteNames.GetUser)]
+        [HttpGet("{subject}", Name = IdentityManagerConstants.RouteNames.GetUser)]
         public async Task<IActionResult> GetUserAsync(string subject)
         {
             if (IsNullOrWhiteSpace(subject))
@@ -146,7 +131,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        [HttpDelete, Route("{subject}", Name = Constants.RouteNames.DeleteUser)]
+        [HttpDelete, Route("{subject}", Name = IdentityManagerConstants.RouteNames.DeleteUser)]
         public async Task<IActionResult> DeleteUserAsync(string subject)
         {
             var meta = await GetMetadataAsync();
@@ -175,7 +160,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        [HttpPut, Route("{subject}/properties/{type}", Name = Constants.RouteNames.UpdateUserProperty)]
+        [HttpPut, Route("{subject}/properties/{type}", Name = IdentityManagerConstants.RouteNames.UpdateUserProperty)]
         public async Task<IActionResult> SetPropertyAsync(string subject, string type)
         {
             if (IsNullOrWhiteSpace(subject))
@@ -205,7 +190,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(ModelState.ToError());
         }
 
-        [HttpPost, Route("{subject}/claims", Name = Constants.RouteNames.AddClaim)]
+        [HttpPost, Route("{subject}/claims", Name = IdentityManagerConstants.RouteNames.AddClaim)]
         public async Task<IActionResult> AddClaimAsync(string subject, [FromBody] ClaimValue model)
         {
             var meta = await GetMetadataAsync();
@@ -240,7 +225,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(ModelState.ToError());
         }
 
-        [HttpDelete, Route("{subject}/claims/{type}/{value}", Name = Constants.RouteNames.RemoveClaim)]
+        [HttpDelete, Route("{subject}/claims/{type}/{value}", Name = IdentityManagerConstants.RouteNames.RemoveClaim)]
         public async Task<IActionResult> RemoveClaimAsync(string subject, string type, string value)
         {
             type = type.FromBase64UrlEncoded();
@@ -268,7 +253,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        [HttpPost, Route("{subject}/roles/{role}", Name = Constants.RouteNames.AddRole)]
+        [HttpPost, Route("{subject}/roles/{role}", Name = IdentityManagerConstants.RouteNames.AddRole)]
         public async Task<IActionResult> AddRoleAsync(string subject, string role)
         {
             var meta = await GetMetadataAsync();
@@ -293,7 +278,7 @@ namespace IdentityManager2.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        [HttpDelete, Route("{subject}/roles/{role}", Name = Constants.RouteNames.RemoveRole)]
+        [HttpDelete, Route("{subject}/roles/{role}", Name = IdentityManagerConstants.RouteNames.RemoveRole)]
         public async Task<IActionResult> RemoveRoleAsync(string subject, string role)
         {
             var meta = await GetMetadataAsync();
@@ -350,6 +335,11 @@ namespace IdentityManager2.Api.Controllers
                     ModelState.AddModelError("", error);
                 }
             }
+        }
+
+        private IActionResult MethodNotAllowed()
+        {
+            return StatusCode(405);
         }
     }
 }

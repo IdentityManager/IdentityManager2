@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IdentityManager2.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,10 +11,7 @@ namespace IdentityManager2.Configuration
         public string HostAuthenticationType { get; set; }
         public string HostChallengeType { get; set; }
         public string AdditionalSignOutType { get; set; }
-
-        public string BearerAuthenticationType { get; set; }
-        public TimeSpan TokenExpiration { get; set; }
-
+        
         public string NameClaimType { get; set; }
         public string RoleClaimType { get; set; }
         public string AdminRoleName { get; set; }
@@ -24,12 +20,9 @@ namespace IdentityManager2.Configuration
 
         public SecurityConfiguration()
         {
-            BearerAuthenticationType = Constants.BearerAuthenticationType;
-            TokenExpiration = Constants.DefaultTokenExpiration;
-            
-            NameClaimType = Constants.ClaimTypes.Name;
-            RoleClaimType = Constants.ClaimTypes.Role;
-            AdminRoleName = Constants.AdminRoleName;
+            NameClaimType = IdentityManagerConstants.ClaimTypes.Name;
+            RoleClaimType = IdentityManagerConstants.ClaimTypes.Role;
+            AdminRoleName = IdentityManagerConstants.AdminRoleName;
 
             ShowLoginButton = true;
         }
@@ -39,10 +32,6 @@ namespace IdentityManager2.Configuration
             if (string.IsNullOrWhiteSpace(HostAuthenticationType))
             {
                 throw new Exception("HostAuthenticationType is required.");
-            }
-            if (string.IsNullOrWhiteSpace(BearerAuthenticationType))
-            {
-                throw new Exception("BearerAuthenticationType is required.");
             }
             if (string.IsNullOrWhiteSpace(NameClaimType))
             {

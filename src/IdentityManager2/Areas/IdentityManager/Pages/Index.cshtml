@@ -1,0 +1,30 @@
+﻿@model IdentityManager2.Api.Models.PageModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IdentityManager 2</title>
+    <link href="@Model.PathBase/assets/Content.bootstrap.min.css" rel="stylesheet" />
+    <link href="@Model.PathBase/assets/Content.Style.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="@Model.PathBase/assets/Content.favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="@Model.PathBase/assets/Content.favicon.ico" />
+</head>
+<body lang="en" ng-app="ttIdmApp" ng-csp ng-controller="LayoutCtrl" ng-cloak>
+
+    <div ng-include="'@Model.PathBase/assets/Templates.navbar.html'"></div>
+
+    <div class="container" ng-cloak>
+        <ng-view tt-focus></ng-view>
+    </div>
+
+    <div ng-include="'@Model.PathBase/assets/Templates.footer.html'"></div>
+
+    <script id="model" type="application/json">
+        @Html.Raw(Model.Model)
+    </script>
+    <script src="@Model.PathBase/assets/Scripts.Bundle.js"></script>
+</body>
+</html>

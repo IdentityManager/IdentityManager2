@@ -24,7 +24,7 @@ namespace IdentityManager2.Api.Models
             var links = new Dictionary<string, string>();
             if (idmMeta.UserMetadata.SupportsDelete)
             {
-                links["delete"] = url.Link(Constants.RouteNames.DeleteUser, new { subject = user.Subject });
+                links["delete"] = url.Link(IdentityManagerConstants.RouteNames.DeleteUser, new { subject = user.Subject });
             }
             Links = links;
         }
@@ -55,7 +55,7 @@ namespace IdentityManager2.Api.Models
                         Meta = m,
                         Links = new
                         {
-                            update = url.Link(Constants.RouteNames.UpdateUserProperty,
+                            update = url.Link(IdentityManagerConstants.RouteNames.UpdateUserProperty,
                                 new
                                 {
                                     subject = user.Subject,
@@ -87,8 +87,8 @@ namespace IdentityManager2.Api.Models
                         },
                         links = new
                         {
-                            add = url.Link(Constants.RouteNames.AddRole, new { subject = user.Subject, role = r.Name.ToBase64UrlEncoded() }),
-                            remove = url.Link(Constants.RouteNames.RemoveRole, new { subject = user.Subject, role = r.Name.ToBase64UrlEncoded() })
+                            add = url.Link(IdentityManagerConstants.RouteNames.AddRole, new { subject = user.Subject, role = r.Name.ToBase64UrlEncoded() }),
+                            remove = url.Link(IdentityManagerConstants.RouteNames.RemoveRole, new { subject = user.Subject, role = r.Name.ToBase64UrlEncoded() })
                         }
                     };
                 this["roles"] = query.ToArray();
@@ -103,7 +103,7 @@ namespace IdentityManager2.Api.Models
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClaim, new
+                            delete = url.Link(IdentityManagerConstants.RouteNames.RemoveClaim, new
                             {
                                 subject = user.Subject,
                                 type = c.Type.ToBase64UrlEncoded(),
@@ -117,7 +117,7 @@ namespace IdentityManager2.Api.Models
                     Data = claims.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClaim, new { subject = user.Subject })
+                        create = url.Link(IdentityManagerConstants.RouteNames.AddClaim, new { subject = user.Subject })
                     }
                 };
             }

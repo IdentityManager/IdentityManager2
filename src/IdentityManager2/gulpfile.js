@@ -20,7 +20,6 @@ gulp.task("js", function () {
             'Assets/Scripts/Libs/bootstrap.min.js',
             'Assets/Scripts/Libs/angular.min.js',
             'Assets/Scripts/Libs/angular-route.min.js',
-            'Assets/Scripts/Libs/oidc-token-manager.min.js',
             'Assets/Scripts/App/ttIdm.js',
             'Assets/Scripts/App/ttIdmUI.js',
             'Assets/Scripts/App/ttIdmUsers.js',

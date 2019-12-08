@@ -9,12 +9,11 @@ namespace IdentityManager2.Extensions
     {
         public static IEnumerable<PropertyMetadata> GetCreateProperties(this RoleMetadata roleMetadata)
         {
-            if (roleMetadata == null) throw new ArgumentNullException("roleMetadata");
+            if (roleMetadata == null) throw new ArgumentNullException(nameof(roleMetadata));
 
             var exclude = roleMetadata.CreateProperties.Select(x => x.Type);
             var additional = roleMetadata.UpdateProperties.Where(x => !exclude.Contains(x.Type) && x.Required);
             return roleMetadata.CreateProperties.Union(additional).ToList();
         }
     }
-
 }
