@@ -4,10 +4,16 @@
 
 IdentityManager2 is a tool for developers and/or administrators to manage the identity information for users of their applications in ASP.NET Core. This includes creating users, editing user information (passwords, email, claims, etc.) and deleting users. It provides a modern replacement for the ASP.NET WebSite Administration tool that used to be built into Visual Studio.
 
+In theory, IdentityManager2 can work with any user store, it just requires an implementation of `IIdentityManagerService`. For example ASP.NET Core Identity usage, check out [IdentityManager2.AspNetIdentity](https://github.com/IdentityManager/IdentityManager2.AspNetIdentity).
+
 IdentityManager2 is a development tool and is not designed to be used in production. For production identity management see [AdminUI](https://www.identityserver.com/products).
 
-For example usage see "[Getting Started with IdentityManager2](https://www.scottbrady91.com/ASPNET-Identity/Getting-Started-with-IdentityManager2)"
+## Articles
 
-**Currently this is a port of the original IdentityManager dev tool. If you're interested in helping to drag the code base into 2018, then check out the issue tracker.**
+- [Getting Started with IdentityManager2](https://www.scottbrady91.com/ASPNET-Identity/Getting-Started-with-IdentityManager2)
+
+## Contributing
+
+Currently, IdentityManager2 is a port of the original IdentityManager dev tool. If you're interested in helping to update the codebase, then check out the [issue tracker](https://github.com/IdentityManager/IdentityManager2/issues?q=label%3A%22help+wanted%22+is%3Aissue+is%3Aopen).
 
 Developed and maintained by [Rock Solid Knowledge](https://www.identityserver.com).
