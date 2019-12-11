@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using IdentityManager2.Api.Models;
 using IdentityManager2.Configuration;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace IdentityManager2.Api.Controllers
 {
@@ -29,7 +29,7 @@ namespace IdentityManager2.Api.Controllers
             return View("/Areas/IdentityManager/Pages/Index.cshtml", new PageModel
             {
                 PathBase = Request.PathBase,
-                Model = JsonConvert.SerializeObject(new
+                Model = JsonSerializer.Serialize(new PageModelParams
                 {
                     PathBase = Request.PathBase,
                     ShowLoginButton = !authResult.Succeeded

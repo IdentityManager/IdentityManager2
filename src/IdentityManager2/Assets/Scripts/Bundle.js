@@ -911,7 +911,7 @@ p.directive("ngView",v);p.directive("ngView",A);v.$inject=["$route","$anchorScro
                 var props = properties.map(function (item) {
                     return {
                         type: item.meta.type,
-                        value: item.data
+                        value: item.data.toString()
                     };
                 });
                 idmUsers.createUser(props)
