@@ -1,9 +1,10 @@
 ﻿using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using IdentityManager2.Api.Models;
 using IdentityManager2.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace IdentityManager2.Assets
 {
@@ -26,7 +27,7 @@ namespace IdentityManager2.Assets
                 new
                 {
                     pathBase = path,
-                    model = JsonConvert.SerializeObject(new
+                    model = JsonSerializer.Serialize(new PageModelParams
                     {
                         PathBase = path,
                         ShowLoginButton = securityConfiguration.ShowLoginButton

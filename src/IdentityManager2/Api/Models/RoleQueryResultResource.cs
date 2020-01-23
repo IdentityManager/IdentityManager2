@@ -29,10 +29,8 @@ namespace IdentityManager2.Api.Models
         }
     }
 
-    public class RoleQueryResultResourceData : QueryResult<RoleSummary>
+    public class RoleQueryResultResourceData : QueryResult<RoleResultResource>
     {
-        public new IEnumerable<RoleResultResource> Items { get; set; }
-
         public RoleQueryResultResourceData(QueryResult<RoleSummary> result, IUrlHelper url, RoleMetadata meta)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));

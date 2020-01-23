@@ -85,7 +85,7 @@
                 var props = properties.map(function (item) {
                     return {
                         type: item.meta.type,
-                        value: item.data
+                        value: item.data.toString()
                     };
                 });
                 idmUsers.createUser(props)

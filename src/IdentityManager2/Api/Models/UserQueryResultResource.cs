@@ -30,10 +30,8 @@ namespace IdentityManager2.Api.Models
         }
     }
 
-    public class UserQueryResultResourceData : QueryResult<UserSummary>
+    public class UserQueryResultResourceData : QueryResult<UserResultResource>
     {
-        public new IEnumerable<UserResultResource> Items { get; set; }
-
         public UserQueryResultResourceData(QueryResult<UserSummary> result, IUrlHelper url, UserMetadata meta)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
