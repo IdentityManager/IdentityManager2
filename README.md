@@ -11,6 +11,7 @@ IdentityManager2 is a development tool and is not designed to be used in product
 ## Articles
 
 - [Getting Started with IdentityManager2](https://www.scottbrady91.com/ASPNET-Identity/Getting-Started-with-IdentityManager2)
+- [IdentityManager2 2020 Update](https://www.scottbrady91.com/ASPNET-Identity/IdentityManager2-2020-Update)
 
 ## Contributing
 
