@@ -70,13 +70,13 @@ namespace IdentityManager2.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("api/logout", Name = IdentityManagerConstants.RouteNames.Logout)]
-        public async Task<IActionResult> Logout()
+        public async Task Logout()
         {
             await HttpContext.SignOutAsync(IdentityManagerConstants.LocalApiScheme);
 
             await config.SecurityConfiguration.SignOut(HttpContext);
 
-            return RedirectToRoute(IdentityManagerConstants.RouteNames.Home, null);
+            await HttpContext.SignOutAsync("oidc");
         }
     }
 }
