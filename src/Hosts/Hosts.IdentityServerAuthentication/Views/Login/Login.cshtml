@@ -1,0 +1,39 @@
+﻿@model Hosts.IdentityServerAuthentication.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row pt-3">
+    <div class="col-12">
+        <h1 class="h2">Login using Local Cookie <small class="text-muted">"cookie" scheme</small></h1>
+        <div class="row">
+            <div class="col-lg-8">
+                <form asp-action="Login" method="post">
+                    <input asp-for="ReturnUrl" type="hidden"/>
+                    <div class="form-group">
+                        <label asp-for="Username"></label>
+                        <input asp-for="Username" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" required type="password" />
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="alert alert-info text-break">
+                    <p>
+                        Authorized IdentityManager users:
+                    </p>
+                    <ul>
+                        <li>alice:alice</li>
+                        <li>bob:bob</li>
+                        <li><em>any other user with the IdentityManagerAdministrator role</em></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

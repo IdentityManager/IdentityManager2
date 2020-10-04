@@ -76,6 +76,9 @@ namespace IdentityManager2.Api.Controllers
 
             await config.SecurityConfiguration.SignOut(HttpContext);
 
+            // if a signout scheme has started a redirect
+            if (HttpContext.Response.StatusCode == 302) return StatusCode(302);
+            
             return RedirectToRoute(IdentityManagerConstants.RouteNames.Home, null);
         }
     }
