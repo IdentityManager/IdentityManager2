@@ -24,4 +24,11 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Pack
-      run: dotnet pack -c Release --no-build --no-restore
+      run: |
+        cd src/IdentityManager2
+        dotnet pack -c Release -o IdentityManager2 --no-build 
+    - name: Publish
+      uses: actions/upload-artifact@master
+      with:
+        name: IdentityManager2
+        path: IdentityManager2
