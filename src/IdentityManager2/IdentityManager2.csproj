@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Description>IdentityManager is an user management tool for ASP.NET Core. Maintained by Rock Solid Knowledge.</Description>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.0.1</VersionPrefix>
     <Authors>Scott Brady</Authors>
     <AssemblyName>IdentityManager2</AssemblyName>
     <PackageId>IdentityManager2</PackageId>
