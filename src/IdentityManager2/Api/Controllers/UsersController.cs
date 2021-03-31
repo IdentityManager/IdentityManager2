@@ -84,7 +84,9 @@ namespace IdentityManager2.Api.Controllers
                     return Created(url, resource);
                 }
 
-                ModelState.AddModelError("", result.ToString());
+                ModelState.AddModelError("errors", result.Errors.Aggregate((workingSentence, next) => workingSentence + " " + next));
+                if(result.Errors.Count > 0)
+                    return BadRequest(ModelState);
             }
 
             return BadRequest(400);
